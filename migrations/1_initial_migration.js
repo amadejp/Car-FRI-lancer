@@ -1,5 +1,5 @@
-var Migrations = artifacts.require("./Migrations.sol");
+const Message = artifacts.require("Message");
 
-module.exports = function(deployer) {
-  deployer.deploy(Migrations);
+module.exports = function (deployer) {
+  deployer.deploy(Message, "Default message");
 };
