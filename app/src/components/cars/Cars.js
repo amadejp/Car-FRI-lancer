@@ -8,8 +8,8 @@ class Cars extends Component {
       console.log(this.props.cars);
       return this.props.cars.map((car) => (
         <CarItem
-          key={car.id}
-          car={car.name}
+          name={car.name}
+          pic={car.pic}
         />
       ));
     } else {

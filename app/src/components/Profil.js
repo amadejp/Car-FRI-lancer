@@ -1,6 +1,6 @@
 import React from "react";
 
-function About() {
+function Profil() {
   return (
     <React.Fragment>
       <h1>Profil</h1>
@@ -11,4 +11,4 @@ function About() {
   );
 }
 
-export default About;
+export default Profil;

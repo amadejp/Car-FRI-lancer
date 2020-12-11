@@ -48,6 +48,8 @@ class App extends Component {
       );
       console.error(error);
     }
+    axios.get("/cars").then((res) => this.setState({ cars: res.data }));
+    console.log("bruhbruh", this.state);
   };
 
   handleChange(event) {
@@ -78,17 +80,10 @@ class App extends Component {
   };
 
   // za štart lokalnega db-ja: npx json-server db.json --port 3003
-  componentDidMount() {
-    console.log("we're in boys")
-    axios
-      .get("localhost:3003/cars")
-      .then((res) => this.setState({ cars: res.data }));
-    console.log("this shoudl be done")
-  }
 
   render() {
     if (!this.state.web3) {
-      return <div>Loading Web3, accounts, and contract...</div>;
+      return <div>Nalagam Web3, račune, pogodbe...</div>;
     }
     return (
       <Router>
@@ -101,7 +96,7 @@ class App extends Component {
               render={(props) => (
                 <div className="row">
                   <div className="col-12 main">
-                    <h1>Welcome to Car FRI-lancer!</h1>
+                    <h1>Dobrodošli na Car FRI-lancer!</h1>
                   </div>
                   <div className="col-12 main">
                     The sent message is: {this.state.message}
@@ -115,9 +110,7 @@ class App extends Component {
                     </form>
                   </div>
                   <div className="col-12 main">
-                  <Cars
-                    cars={this.state.cars}
-                  />
+                    <Cars cars={this.state.cars} />
                   </div>
                 </div>
               )}
