@@ -1,15 +1,25 @@
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import React, { Component } from "react";
+import Cars from "./components/cars/Cars";
+import NavMenu from "./components/NavMenu";
+import axios from "axios";
 import Message from "./contracts/Message.json";
 import getWeb3 from "./getWeb3";
 
-import "./App.css";
+import "./styles/App.css";
 
 class App extends Component {
-  state = { message: "", web3: null, accounts: null, contract: null, newValue: ""};
+  state = {
+    message: "",
+    web3: null,
+    accounts: null,
+    contract: null,
+    newValue: "",
+    cars: [null]
+  };
 
   componentDidMount = async () => {
     try {
-
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
 
@@ -24,7 +34,7 @@ class App extends Component {
       const deployedNetwork = Message.networks[networkId];
       const instance = new web3.eth.Contract(
         Message.abi,
-        deployedNetwork && deployedNetwork.address,
+        deployedNetwork && deployedNetwork.address
       );
 
       // Set web3, accounts, and contract to the state, and then proceed with an
@@ -33,23 +43,25 @@ class App extends Component {
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
-        `Failed to load web3, accounts, or contract. Check console for details.`,
+        `Failed to load web3, accounts, or contract. Check console for details.`
       );
       console.error(error);
     }
   };
 
-  handleChange(event){
-    this.setState({newValue: event.target.value});
+  handleChange(event) {
+    this.setState({ newValue: event.target.value });
   }
 
-  async handleSubmit(event){
+  async handleSubmit(event) {
     event.preventDefault();
 
     const { accounts, contract } = this.state;
-    await contract.methods.setMessage(this.state.newValue).send({from: accounts[0]});
+    await contract.methods
+      .setMessage(this.state.newValue)
+      .send({ from: accounts[0] });
     const response = await contract.methods.getMessage().call();
-    this.setState({message: response});
+    this.setState({ message: response });
   }
 
   runExample = async () => {
@@ -58,11 +70,17 @@ class App extends Component {
     // Get the value from the contract to prove it worked.
     const response = await contract.methods.getMessage().call();
 
-    this.setState({message: response});
+    this.setState({ message: response });
 
     // Update state with the result.
     //this.setState({ message: response });
   };
+
+  componentDidMount() {
+    axios
+      .get("localhost:3000/cars")
+      .then((res) => this.setState({ cars: res.data }));
+  }
 
   render() {
     if (!this.state.web3) {
@@ -70,12 +88,17 @@ class App extends Component {
     }
     return (
       <div className="App">
-        <h1>Welcome to my first Dapps!</h1>
+        <NavMenu />
+        <h1>Welcome to Car FRIlancer!</h1>
         <div>The sent message is: {this.state.message}</div>
         <form onSubmit={this.handleSubmit}>
-          <input type="text" value={this.state.newValue} onChange={this.handleChange.bind(this)}/>    
-          <input type="submit" balue="Submit"/>
-        </form>    
+          <input
+            type="text"
+            value={this.state.newValue}
+            onChange={this.handleChange.bind(this)}
+          />
+          <input type="submit" balue="Submit" />
+        </form>
       </div>
     );
   }

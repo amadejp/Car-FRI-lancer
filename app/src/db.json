@@ -1,0 +1,8 @@
+{
+  "cars": 
+  [
+    { "id": 1, "name": "Audi A4", "owner": "hash1" },
+    { "id": 2, "name": "BMW X6", "owner": "hash2" },
+    { "id": 3, "name": "Bentley Bentayga", "owner": "hash3" }
+  ]
+}
