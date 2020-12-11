@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import React, { Component } from "react";
 import Cars from "./components/cars/Cars";
+import Profil from "./components/Profil";
 import NavMenu from "./components/NavMenu";
 import axios from "axios";
 import Message from "./contracts/Message.json";
@@ -15,7 +16,7 @@ class App extends Component {
     accounts: null,
     contract: null,
     newValue: "",
-    cars: [null]
+    cars: [null],
   };
 
   componentDidMount = async () => {
@@ -76,10 +77,13 @@ class App extends Component {
     //this.setState({ message: response });
   };
 
+  // za štart lokalnega db-ja: npx json-server db.json --port 3003
   componentDidMount() {
+    console.log("we're in boys")
     axios
-      .get("localhost:3000/cars")
+      .get("localhost:3003/cars")
       .then((res) => this.setState({ cars: res.data }));
+    console.log("this shoudl be done")
   }
 
   render() {
@@ -87,19 +91,41 @@ class App extends Component {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
     return (
-      <div className="App">
-        <NavMenu />
-        <h1>Welcome to Car FRIlancer!</h1>
-        <div>The sent message is: {this.state.message}</div>
-        <form onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            value={this.state.newValue}
-            onChange={this.handleChange.bind(this)}
-          />
-          <input type="submit" balue="Submit" />
-        </form>
-      </div>
+      <Router>
+        <div className="App">
+          <div className="container-fluid">
+            <NavMenu />
+            <Route
+              exact
+              path="/"
+              render={(props) => (
+                <div className="row">
+                  <div className="col-12 main">
+                    <h1>Welcome to Car FRI-lancer!</h1>
+                  </div>
+                  <div className="col-12 main">
+                    The sent message is: {this.state.message}
+                    <form onSubmit={this.handleSubmit}>
+                      <input
+                        type="text"
+                        value={this.state.newValue}
+                        onChange={this.handleChange.bind(this)}
+                      />
+                      <input type="submit" balue="Submit" />
+                    </form>
+                  </div>
+                  <div className="col-12 main">
+                  <Cars
+                    cars={this.state.cars}
+                  />
+                  </div>
+                </div>
+              )}
+            />
+            <Route path="/profile" component={Profil} />
+          </div>
+        </div>
+      </Router>
     );
   }
 }

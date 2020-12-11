@@ -4,17 +4,25 @@ import PropTypes from "prop-types";
 
 class Cars extends Component {
   render() {
-    return this.props.cars.map((car) => (
-      <CarItem
-        key={car.id}
-        car={car}
-      />
-    ));
+    if (this.props.cars[0] !== null) {
+      console.log(this.props.cars);
+      return this.props.cars.map((car) => (
+        <CarItem
+          key={car.id}
+          car={car.name}
+        />
+      ));
+    } else {
+      {
+        return <p>Žal ni na voljo nobenega avtomobila.</p>;
+      }
+    }
+    
   }
 }
 
 Cars.propTypes = {
-  todos: PropTypes.array.isRequired,
+  cars: PropTypes.array.isRequired,
 };
 
 export default Cars;
