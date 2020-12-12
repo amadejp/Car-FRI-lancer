@@ -5,6 +5,7 @@ import Profil from "./components/Profil";
 import MyCars from "./components/MyCars";
 import RentedCars from "./components/RentedCars";
 import NavMenu from "./components/NavMenu";
+import RentForm from "./components/RentForm";
 import axios from "axios";
 import Message from "./contracts/Message.json";
 import getWeb3 from "./getWeb3";
@@ -18,7 +19,7 @@ class App extends Component {
     accounts: null,
     contract: null,
     newValue: "",
-    reservation: null,
+    booking: "",
     cars: [null],
     users: [null],
     userData: null
@@ -53,6 +54,7 @@ class App extends Component {
       );
       console.error(error);
     }
+
     axios.get("/cars").then((res) => this.setState({ cars: res.data }));
     axios.get("/users").then((res) => this.setState({ users: res.data }));
     axios.get("/users/" + this.state.accounts[0]).then((res) => this.setState({ userData: res.data }));
@@ -68,7 +70,7 @@ class App extends Component {
 
     const { accounts, contract } = this.state;
     await contract.methods
-      .setMessage(this.state.newValue)
+      .setMessage(event.target.name.value)
       .send({ from: accounts[0] });
     const response = await contract.methods.getMessage().call();
     this.setState({ message: response });
@@ -86,14 +88,22 @@ class App extends Component {
     //this.setState({ message: response });
   };
 
-  // funkcija za modalno okno za naročanje
-  onSubmit(event) {
-    event.preventDefault(event);
-    console.log(this.state.reservation);
-    console.log(event.target.name.value);
-    console.log(event.target.email.value);
-    window.location = "/rents";
+  setBooking(name) {
+    this.setState({ booking: name });
   }
+
+  getReservation() {
+    var current_car = localStorage.getItem("reservation") || 1;
+
+    return {
+      car: current_car,
+    };
+  }
+
+  onSubmit = (event) => {
+    event.preventDefault(event);
+    console.log(event.target.name.value);
+  };
 
   render() {
     if (!this.state.web3) {
@@ -113,22 +123,7 @@ class App extends Component {
                     <h1>Dobrodošli na Car FRI-lancer!</h1>
                   </div>
                   <div className="col-12 main">
-                    The sent message is: {this.state.message}
-                    <form onSubmit={this.handleSubmit}>
-                      <input
-                        type="text"
-                        value={this.state.newValue}
-                        onChange={this.handleChange.bind(this)}
-                      />
-                      <input type="submit" balue="Submit" />
-                    </form>
-                  </div>
-                  <div className="col-12 main">
-                    <Cars
-                      onSubmit={this.onSubmit}
-                      //setReservation={p=>{this.setState(p)}}
-                      cars={this.state.cars}
-                    />
+                    <Cars cars={this.state.cars} />
                   </div>
                 </div>
               )}
@@ -180,6 +175,11 @@ class App extends Component {
                     </div>
                 </div>
             )}
+            />
+            <Route path="/rentform" component={RentForm} />
+            <Route
+              path="/rent-form"
+              render={(props) => <RentForm onSubmit={this.handleSubmit} />}
             />
           </div>
         </div>

@@ -3,6 +3,7 @@ import CarItem from "./CarItem";
 import PropTypes from "prop-types";
 
 class Cars extends Component {
+  
   render() {
     if (this.props.cars[0] !== null) {
       return this.props.cars.map((car) => (
