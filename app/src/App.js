@@ -125,7 +125,8 @@ class App extends Component {
             <Route path="/rentform" component={RentForm} />
             <Route
               path="/rent-form"
-              render={(props) => <RentForm onSubmit={this.handleSubmit} />}
+              render={(props) => <RentForm onSubmit={this.handleSubmit} 
+              cars={this.state.cars} />}
             />
           </div>
         </div>

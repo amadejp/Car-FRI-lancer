@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 class RentForm extends Component {
   render() {
+    const { id, name, pic, trans, power, acc, price } = this.props.car;
     return (
       <React.Fragment>
         <main>
