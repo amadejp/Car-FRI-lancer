@@ -39,5 +39,13 @@
       "price": 120,
       "pic": "/images/bentleybentayga.png"
     }
+  ],
+  "users": [
+    {
+        "id": "0xb44935Eea46817a858b2901e3225F33485D3fd82",
+        "name": "Janez Novak haha",
+        "ownedCars": [2],
+        "rentedCars": [3]
+    }
   ]
 }
