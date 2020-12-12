@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import CarItem from "./cars/CarItem";
 
-class Profil extends Component {
+class MyCars extends Component {
     render() {
         if (this.props.userData !== null) {
             const { id, name, ownedCars, rentedCars } = this.props.userData;
@@ -20,8 +20,8 @@ class Profil extends Component {
     }
 }
 
-Profil.propTypes = {
+MyCars.propTypes = {
     userData: PropTypes.object.isRequired
 };
 
-export default Profil;
+export default MyCars;

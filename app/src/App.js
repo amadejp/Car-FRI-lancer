@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import React, { Component } from "react";
 import Cars from "./components/cars/Cars";
 import Profil from "./components/Profil";
+import MyCars from "./components/MyCars";
+import RentedCars from "./components/RentedCars";
 import NavMenu from "./components/NavMenu";
 import axios from "axios";
 import Message from "./contracts/Message.json";
@@ -18,6 +20,8 @@ class App extends Component {
     newValue: "",
     reservation: null,
     cars: [null],
+    users: [null],
+    userData: null
   };
 
   componentDidMount = async () => {
@@ -50,6 +54,9 @@ class App extends Component {
       console.error(error);
     }
     axios.get("/cars").then((res) => this.setState({ cars: res.data }));
+    axios.get("/users").then((res) => this.setState({ users: res.data }));
+    axios.get("/users/" + this.state.accounts[0]).then((res) => this.setState({ userData: res.data }));
+    console.log(this.state.accounts[0]);
   };
 
   handleChange(event) {
@@ -126,7 +133,54 @@ class App extends Component {
                 </div>
               )}
             />
-            <Route path="/profile" component={Profil} />
+            <Route path="/profile" 
+            render={(props) => (
+                <div>
+                    <div className="row main">
+                        <div className="col-12 main">
+                            <h1>Profil</h1>
+                        </div>
+                        <div className="card main">
+                            <Profil
+                                userData={this.state.userData}
+                            />
+                        </div>
+                    </div>
+                </div>
+            )}
+            />
+            <Route path="/cars" 
+            render={(props) => (
+                <div>
+                    <div className="row main">
+                        <div className="col-12 main">
+                            <h1>Profil</h1>
+                        </div>
+                        <div className="card main">
+                            <MyCars
+                                userData={this.state.userData}
+                            />
+                        </div>
+                    </div>
+                </div>
+            )}
+            />
+            <Route path="/rents" 
+            render={(props) => (
+                <div>
+                    <div className="row main">
+                        <div className="col-12 main">
+                            <h1>Profil</h1>
+                        </div>
+                        <div className="card main">
+                            <RentedCars
+                                userData={this.state.userData}
+                            />
+                        </div>
+                    </div>
+                </div>
+            )}
+            />
           </div>
         </div>
       </Router>
