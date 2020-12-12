@@ -16,6 +16,7 @@ class App extends Component {
     accounts: null,
     contract: null,
     newValue: "",
+    reservation: null,
     cars: [null],
   };
 
@@ -49,7 +50,6 @@ class App extends Component {
       console.error(error);
     }
     axios.get("/cars").then((res) => this.setState({ cars: res.data }));
-    console.log("bruhbruh", this.state);
   };
 
   handleChange(event) {
@@ -79,7 +79,14 @@ class App extends Component {
     //this.setState({ message: response });
   };
 
-  // za štart lokalnega db-ja: npx json-server db.json --port 3003
+  // funkcija za modalno okno za naročanje
+  onSubmit(event) {
+    event.preventDefault(event);
+    console.log(this.state.reservation);
+    console.log(event.target.name.value);
+    console.log(event.target.email.value);
+    window.location = "/rents";
+  }
 
   render() {
     if (!this.state.web3) {
@@ -110,7 +117,11 @@ class App extends Component {
                     </form>
                   </div>
                   <div className="col-12 main">
-                    <Cars cars={this.state.cars} />
+                    <Cars
+                      onSubmit={this.onSubmit}
+                      //setReservation={p=>{this.setState(p)}}
+                      cars={this.state.cars}
+                    />
                   </div>
                 </div>
               )}

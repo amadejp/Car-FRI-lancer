@@ -1,8 +1,43 @@
 {
-  "cars": 
-  [
-    { "id": 1, "name": "Audi A4", "owner": "hash1", "pic": "/images/audia4.png"},
-    { "id": 2, "name": "BMW X6", "owner": "hash2", "pic": "/images/bmwx6.png" },
-    { "id": 3, "name": "Bentley Bentayga", "owner": "hash3", "pic": "/images/bentleybentayga.png" }
+  "cars": [
+    {
+      "id": 1,
+      "name": "Audi A4",
+      "power": 150,
+      "acc": 8.6,
+      "drive": "FWD",
+      "trans": "ročni",
+      "year": 2019,
+      "type": "limuzina",
+      "owner": "0xB8cBD5Cc98eBD7a875808D742379E03993bA8038",
+      "price": 80,
+      "pic": "/images/audia4.png"
+    },
+    {
+      "id": 2,
+      "name": "BMW X6",
+      "power": 245,
+      "acc": 7.5,
+      "drive": "AWD",
+      "trans": "avtomatski",
+      "year": 2012,
+      "type": "SUV",
+      "owner": "0x3b5435Dc6b5873A33f340aD4BD2958032f27c0eA",
+      "price": 85,
+      "pic": "/images/bmwx6.png"
+    },
+    {
+      "id": 3,
+      "name": "Bentley Bentayga",
+      "power": 550,
+      "acc": 4.5,
+      "drive": "AWD",
+      "trans": "avtomatski",
+      "year": 2018,
+      "type": "SUV",
+      "owner": "0x7d86148c1d1b53ACC536CD14C9227971E1995c91",
+      "price": 120,
+      "pic": "/images/bentleybentayga.png"
+    }
   ]
 }
