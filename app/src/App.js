@@ -22,7 +22,7 @@ class App extends Component {
     booking: "",
     cars: [null],
     users: [null],
-    userData: null
+    userData: null,
   };
 
   componentDidMount = async () => {
@@ -57,9 +57,15 @@ class App extends Component {
 
     axios.get("/cars").then((res) => this.setState({ cars: res.data }));
     axios.get("/users").then((res) => this.setState({ users: res.data }));
-    axios.get("/users/" + this.state.accounts[0]).then((res) => this.setState({ userData: res.data }));
-    console.log(this.state.accounts[0]);
+    axios
+      .get("/users/" + this.state.accounts[0])
+      .then((res) => this.setState({ userData: res.data }));
   };
+
+  // najboljše da se tukaj console loga
+  componentDidUpdate() {
+    // console.log(this.getCarsById([localStorage.getItem("reservation")]));
+  }
 
   handleChange(event) {
     this.setState({ newValue: event.target.value });
@@ -105,6 +111,20 @@ class App extends Component {
     console.log(event.target.name.value);
   };
 
+  getCarsById(id_array) {
+    var id_cars = [];
+    if (this.state.cars[0] !== null && id_array > 0) {
+      var ids = id_array.map(Number);
+      console.log("ids", ids);
+      for (let i = 0; i < this.state.cars.length; i++) {
+        if (ids.includes(this.state.cars[i].id)) {
+          id_cars.push(this.state.cars[i]);
+        }
+      }
+    }
+    return id_cars;
+  }
+
   render() {
     if (!this.state.web3) {
       return <div>Nalagam Web3, račune, pogodbe...</div>;
@@ -128,59 +148,60 @@ class App extends Component {
                 </div>
               )}
             />
-            <Route path="/profile" 
-            render={(props) => (
+            <Route
+              path="/profile"
+              render={(props) => (
                 <div>
-                    <div className="row main">
-                        <div className="col-12 main">
-                            <h1>Profil</h1>
-                        </div>
-                        <div className="card main">
-                            <Profil
-                                userData={this.state.userData}
-                            />
-                        </div>
+                  <div className="row main">
+                    <div className="col-12 main">
+                      <h1>Profil</h1>
                     </div>
+                    <div className="card main">
+                      <Profil userData={this.state.userData} />
+                    </div>
+                  </div>
                 </div>
-            )}
+              )}
             />
-            <Route path="/cars" 
-            render={(props) => (
+            <Route
+              path="/cars"
+              render={(props) => (
                 <div>
-                    <div className="row main">
-                        <div className="col-12 main">
-                            <h1>Profil</h1>
-                        </div>
-                        <div className="card main">
-                            <MyCars
-                                userData={this.state.userData}
-                            />
-                        </div>
+                  <div className="row main">
+                    <div className="col-12 main">
+                      <h1>Profil</h1>
                     </div>
+                    <div className="card main">
+                      <MyCars userData={this.state.userData} />
+                    </div>
+                  </div>
                 </div>
-            )}
+              )}
             />
-            <Route path="/rents" 
-            render={(props) => (
+            <Route
+              path="/rents"
+              render={(props) => (
                 <div>
-                    <div className="row main">
-                        <div className="col-12 main">
-                            <h1>Profil</h1>
-                        </div>
-                        <div className="card main">
-                            <RentedCars
-                                userData={this.state.userData}
-                            />
-                        </div>
+                  <div className="row main">
+                    <div className="col-12 main">
+                      <h1>Profil</h1>
                     </div>
+                    <div className="card main">
+                      <RentedCars userData={this.state.userData} />
+                    </div>
+                  </div>
                 </div>
-            )}
+              )}
             />
             <Route path="/rentform" component={RentForm} />
             <Route
               path="/rent-form"
-              render={(props) => <RentForm onSubmit={this.handleSubmit} 
-              cars={this.state.cars} />}
+              render={(props) => (
+                <RentForm
+                  onSubmit={this.handleSubmit}
+                  cars={this.getCarsById([localStorage.getItem("reservation")])}
+                />
+              )}
             />
           </div>
         </div>

@@ -10,6 +10,7 @@
       "year": 2019,
       "type": "limuzina",
       "owner": "0xB8cBD5Cc98eBD7a875808D742379E03993bA8038",
+      "location": "Ljubljana",
       "price": 80,
       "pic": "/images/audia4.png"
     },
@@ -23,6 +24,7 @@
       "year": 2012,
       "type": "SUV",
       "owner": "0x3b5435Dc6b5873A33f340aD4BD2958032f27c0eA",
+      "location": "Koper",
       "price": 85,
       "pic": "/images/bmwx6.png"
     },
@@ -36,13 +38,14 @@
       "year": 2018,
       "type": "SUV",
       "owner": "0x7d86148c1d1b53ACC536CD14C9227971E1995c91",
+      "location": "Maribor",
       "price": 120,
       "pic": "/images/bentleybentayga.png"
     }
   ],
   "users": [
     {
-        "id": "0xb44935Eea46817a858b2901e3225F33485D3fd82",
+        "id": "0xE6FeD2aC60647aF1249d19761957859F10c7a65d",
         "name": "Janez Novak haha",
         "ownedCars": [2],
         "rentedCars": [3]
