@@ -11,7 +11,7 @@
       "type": "limuzina",
       "owner": "0xB8cBD5Cc98eBD7a875808D742379E03993bA8038",
       "location": "Ljubljana",
-      "price": 80,
+      "price": 90,
       "pic": "/images/audia4.png"
     },
     {
@@ -25,7 +25,7 @@
       "type": "SUV",
       "owner": "0x3b5435Dc6b5873A33f340aD4BD2958032f27c0eA",
       "location": "Koper",
-      "price": 85,
+      "price": 120,
       "pic": "/images/bmwx6.png"
     },
     {
@@ -39,7 +39,7 @@
       "type": "SUV",
       "owner": "0x7d86148c1d1b53ACC536CD14C9227971E1995c91",
       "location": "Maribor",
-      "price": 120,
+      "price": 560,
       "pic": "/images/bentleybentayga.png"
     }
   ],

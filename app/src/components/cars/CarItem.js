@@ -10,7 +10,6 @@ import {
 import "../../styles/CarItem.css";
 
 export class CarItem extends Component {
-
   setReservation(car) {
     localStorage.setItem("reservation", car);
     window.location = "/rent-form";
@@ -34,13 +33,13 @@ export class CarItem extends Component {
               <FontAwesomeIcon icon={faCog} /> {trans} menjalnik
             </p>
             <div>
+              <p className="Car-price">{price}€ / dan</p>
               <button
-                onClick={ () => this.setReservation(id) }
+                onClick={() => this.setReservation(id)}
                 className="btn btn-primary"
               >
                 Naroči
               </button>
-              <p className="Car-price">{price}€ / dan</p>
             </div>
           </div>
         </div>
