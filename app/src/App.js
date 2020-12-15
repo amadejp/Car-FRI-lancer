@@ -1,17 +1,24 @@
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import React, { Component } from "react";
+
+import NavMenu from "./components/NavMenu";
 import Cars from "./components/cars/Cars";
 import Profil from "./components/Profil";
 import MyCars from "./components/MyCars";
 import RentedCars from "./components/RentedCars";
-import NavMenu from "./components/NavMenu";
 import RentForm from "./components/RentForm";
+
 import axios from "axios";
 import Message from "./contracts/Message.json";
 import CarBooking from "./contracts/CarBooking.json";
 import getWeb3 from "./getWeb3";
 
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
 import "./styles/App.css";
+
+const MySwal = withReactContent(Swal);
 
 // start local db with: npx json-server db.json --port 3003
 
@@ -100,37 +107,56 @@ class App extends Component {
   }
 
   async handleSubmit(event) {
-    event.preventDefault();
+    try {
+      event.preventDefault();
 
-    const { accounts, contractBooking } = this.state;
+      const { accounts, contractBooking } = this.state;
 
-    const form = event.target;
-    const carId = parseInt(this.getReservation().car);
-    const car = this.getCarsById([carId])[0];
-    const owner = car.owner;
-    const user = this.state.accounts[0];
-    const startDate = form.startDate.value.toString();
-    const endDate = form.endDate.value.toString();
-    // calculate length of rental in days (for cost calculations)
-    var lor = this.daysDiff(startDate, endDate);
-    var price_eur = lor * car.price;
-    var price_eth = await this.convert(price_eur);
+      const form = event.target;
+      const carId = parseInt(this.getReservation().car);
+      const car = this.getCarsById([carId])[0];
+      const owner = car.owner;
+      const user = this.state.accounts[0];
+      const startDate = form.startDate.value.toString();
+      const endDate = form.endDate.value.toString();
+      // calculate length of rental in days (for cost calculations)
+      var lor = this.daysDiff(startDate, endDate);
+      var price_eur = lor * car.price;
+      var price_eth = await this.convert(price_eur);
 
-    await contractBooking.methods
-      .confirmBooking(owner, user, startDate, endDate, price_eur)
-      .send({ from: accounts[0] });
-    const response = await contractBooking.methods.getBookings().call();
-    this.setState({ bookings: response });
+      await contractBooking.methods
+        .confirmBooking(owner, user, startDate, endDate, price_eur)
+        .send({ from: accounts[0] });
+      const response = await contractBooking.methods.getBookings().call();
+      this.setState({ bookings: response });
 
-    // send eth
-    if (this.state.web3) {
-      this.state.web3.eth.sendTransaction({
-        from: user,
-        to: owner,
-        value: this.state.web3.utils.toWei(price_eth.toString(), "ether"),
-        gasLimit: 21000,
-        gasPrice: 20000000000,
-      });
+      // send eth
+      const web3 = this.state.web3;
+      if (web3) {
+        web3.eth.sendTransaction(
+          {
+            from: user,
+            to: owner,
+            value: web3.utils.toWei(price_eth.toString(), "ether"),
+            gasLimit: 21000,
+            gasPrice: 20000000000,
+          },
+          async function (err, transactionHash) {
+            if (!err) {
+              var receipt = await web3.eth.getTransactionReceipt(
+                transactionHash
+              );
+              MySwal.fire(
+                "Uspešno oddano naročilo.",
+                "transaction hash: " + transactionHash.toString(),
+                "success"
+              );
+            }
+          }
+        );
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -188,11 +214,20 @@ class App extends Component {
   }
 
   // GET /cars?owner.name=acc_hash - to bi mogl delat (some tweaks probably needed tho)
-  //getCarsByOwner
+  //getCarsByOwner() {}
 
   render() {
     if (!this.state.web3) {
+      /*
+      MySwal.fire(
+        "Si prijavljen v svoj metamask račun?",
+        "Nalagam Web3, račune, pogodbe...",
+        "question"
+      );
+      */
       return <div>Nalagam Web3, račune, pogodbe...</div>;
+    } else {
+      MySwal.close();
     }
     return (
       <Router>

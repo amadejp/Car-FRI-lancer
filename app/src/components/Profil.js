@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import CarItem from "./cars/CarItem";
 
+// profila bi se jst čist znebil... v db bi mel samo avte, na spletni strani
+// pa bi user lahko navigiru med domov, zemljevid, (trenutne) izposoje, moji avti (naj bodo stanja prisotna - ali je izposjen ali ne,
+//                                                          zato da lahko car owner ob koncu izposoje potrdi in konča rent)
+
 class Profil extends Component {
     render() {
         if (this.props.userData !== null) {
