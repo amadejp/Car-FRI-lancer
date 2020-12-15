@@ -8,18 +8,20 @@ import NavMenu from "./components/NavMenu";
 import RentForm from "./components/RentForm";
 import axios from "axios";
 import Message from "./contracts/Message.json";
+import CarBooking from "./contracts/CarBooking.json";
 import getWeb3 from "./getWeb3";
 
 import "./styles/App.css";
 
+// start local db with: npx json-server db.json --port 3003
+
 class App extends Component {
   state = {
-    message: "",
     web3: null,
     accounts: null,
-    contract: null,
-    newValue: "",
-    booking: "",
+    contractMessage: null,
+    contractBooking: null,
+    bookings: null,
     cars: [null],
     users: [null],
     userData: null,
@@ -39,14 +41,26 @@ class App extends Component {
       // Get the contract instance.
       const networkId = await web3.eth.net.getId();
       const deployedNetwork = Message.networks[networkId];
-      const instance = new web3.eth.Contract(
+      const instanceMessage = new web3.eth.Contract(
         Message.abi,
         deployedNetwork && deployedNetwork.address
       );
 
+      // Get the CarBooking contract instance.
+      const deployedNetwork2 = CarBooking.networks[networkId];
+      const instanceBooking = new web3.eth.Contract(
+        CarBooking.abi,
+        deployedNetwork2 && deployedNetwork2.address
+      );
+
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({ web3, accounts, contract: instance }, this.runExample);
+      this.setState({
+        web3: web3,
+        accounts: accounts,
+        contractMessage: instanceMessage,
+        contractBooking: instanceBooking,
+      });
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -57,13 +71,26 @@ class App extends Component {
 
     axios.get("/cars").then((res) => this.setState({ cars: res.data }));
     axios.get("/users").then((res) => this.setState({ users: res.data }));
+
+    this.setState({
+      userData: {
+        id: "0xE6FeD2aC60647aF1249d19761957859F10c7a65d",
+        name: "Janez Novak haha",
+        ownedCars: [2],
+        rentedCars: [3],
+      },
+    });
+    /*
     axios
       .get("/users/" + this.state.accounts[0])
       .then((res) => this.setState({ userData: res.data }));
+      */
   };
 
   // najboljše da se tukaj console loga
   componentDidUpdate() {
+    //console.log(this.state.contractMessage);
+    console.log(this.state.bookings);
     // console.log(this.getCarsById([localStorage.getItem("reservation")]));
   }
 
@@ -74,25 +101,37 @@ class App extends Component {
   async handleSubmit(event) {
     event.preventDefault();
 
-    const { accounts, contract } = this.state;
-    await contract.methods
-      .setMessage(event.target.name.value)
+    const { accounts, contractBooking } = this.state;
+
+    const form = event.target;
+    const carId = parseInt(this.getReservation().car);
+    const car = this.getCarsById([carId])[0];
+    const owner = car.owner;
+    const user = this.state.accounts[0];
+    const startDate = form.startDate.value.toString();
+    const endDate = form.endDate.value.toString();
+    // calculate length of rental in days (for cost calculations)
+    var lor = this.daysDiff(startDate, endDate);
+    var price_eur = lor * car.price;
+    var price_eth = await this.convert(price_eur);
+
+    await contractBooking.methods
+      .confirmBooking(owner, user, startDate, endDate, price_eur)
       .send({ from: accounts[0] });
-    const response = await contract.methods.getMessage().call();
-    this.setState({ message: response });
+    const response = await contractBooking.methods.getBookings().call();
+    this.setState({ bookings: response });
+
+    // send eth
+    if (this.state.web3) {
+      this.state.web3.eth.sendTransaction({
+        from: user,
+        to: owner,
+        value: this.state.web3.utils.toWei(price_eth.toString(), "ether"),
+        gasLimit: 21000,
+        gasPrice: 20000000000,
+      });
+    }
   }
-
-  runExample = async () => {
-    const { accounts, contract } = this.state;
-
-    // Get the value from the contract to prove it worked.
-    const response = await contract.methods.getMessage().call();
-
-    this.setState({ message: response });
-
-    // Update state with the result.
-    //this.setState({ message: response });
-  };
 
   setBooking(name) {
     this.setState({ booking: name });
@@ -106,16 +145,38 @@ class App extends Component {
     };
   }
 
-  onSubmit = (event) => {
-    event.preventDefault(event);
-    console.log(event.target.name.value);
-  };
+  // get difference between two dates in days
+  daysDiff(date1_str, date2_str) {
+    var date1 = new Date(date1_str);
+    var date2 = new Date(date2_str);
+
+    var difference = Math.abs(date1.getTime() - date2.getTime());
+    var days = Math.ceil(difference / (1000 * 3600 * 24));
+
+    return days;
+  }
+
+  // convert EUR to ETH
+  async convert(price_eur) {
+    var exc;
+    var price_eth;
+
+    // API for current echange rate
+    await axios
+      .get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=EUR")
+      .then((res) => {
+        exc = res.data;
+        console.log(exc.EUR);
+        price_eth = price_eur * (1 / exc.EUR);
+      });
+
+    return price_eth;
+  }
 
   getCarsById(id_array) {
     var id_cars = [];
     if (this.state.cars[0] !== null && id_array > 0) {
       var ids = id_array.map(Number);
-      console.log("ids", ids);
       for (let i = 0; i < this.state.cars.length; i++) {
         if (ids.includes(this.state.cars[i].id)) {
           id_cars.push(this.state.cars[i]);

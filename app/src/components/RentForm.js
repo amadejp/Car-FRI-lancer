@@ -149,7 +149,7 @@ class RentForm extends Component {
                 >
                   <h5>Izpolnite podrobnosti izposoje</h5>
                   <br></br>
-                  <form id="posljiSporocilo" action method="POST">
+                  <form onSubmit={this.props.onSubmit}>
                     <div className="form-group">
                       <div className="row">
                         <div className="col-2">Začetek izposoje:</div>
@@ -191,12 +191,6 @@ class RentForm extends Component {
             </div>
           </div>
         </main>
-        <div className="col-12 main">
-          <form onSubmit={this.props.onSubmit}>
-            <input type="text" name="name" />
-            <input type="submit" value="Submit" />
-          </form>
-        </div>
       </React.Fragment>
     );
   }
