@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import CarItem from "./cars/CarItem";
 
+// tukaj bodo prikazani avtomobili uporabnika in gumb za dodajanje novega avtomobila
+
 class MyCars extends Component {
     render() {
         if (this.props.userData !== null) {

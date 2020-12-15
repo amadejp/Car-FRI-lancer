@@ -1,7 +1,7 @@
-const Message = artifacts.require("Message");
 const CarBooking = artifacts.require("CarBooking");
+const CarRegistration = artifacts.require("CarRegistration");
 
 module.exports = function (deployer) {
-  deployer.deploy(Message, "Default message");
   deployer.deploy(CarBooking);
+  deployer.deploy(CarRegistration);
 };

@@ -1399,12 +1399,12 @@
     "666": {
       "events": {},
       "links": {},
-      "address": "0xcb47DaC0d86D01a35377815742942716A7B0aeD8",
-      "transactionHash": "0xb063038642b79a12364cc37f085ab9774f2cf8f767b727b7f7a41ebe3e056865"
+      "address": "0x4ecA6821b6819266b3D036546E50e3c384ebb91B",
+      "transactionHash": "0x24aaea5fe6ecd9c10062d262f712354809098b73ddcbc8557e140993b0edaaff"
     }
   },
   "schemaVersion": "3.3.2",
-  "updatedAt": "2020-12-15T21:59:17.996Z",
+  "updatedAt": "2020-12-15T22:06:47.842Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}

@@ -2862,12 +2862,12 @@
     "666": {
       "events": {},
       "links": {},
-      "address": "0xA80e38d551E7cB571E2294C8E1D75108D63deb9C",
-      "transactionHash": "0xd8b9c86a84ecb13d306b18d227c11fb8de1fd0a09ddd9a259d0e087552e7db98"
+      "address": "0xB8f67E2bdfB0C46A6D831cB052dE25301E6a63c1",
+      "transactionHash": "0x83df2ba41518fb33c5b0c188a775c475d5055abe57c167266ab8f8f980d06f2a"
     }
   },
   "schemaVersion": "3.3.2",
-  "updatedAt": "2020-12-15T21:59:18.000Z",
+  "updatedAt": "2020-12-15T22:06:47.845Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}

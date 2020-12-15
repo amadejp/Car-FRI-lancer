@@ -72,6 +72,7 @@ class App extends Component {
     axios.get("/cars").then((res) => this.setState({ cars: res.data }));
     axios.get("/users").then((res) => this.setState({ users: res.data }));
 
+    // trenutno kar hardcodan ta uporabnik (moji avti + izposoja naj bo od zdaj naprej prek web3 vse)
     this.setState({
       userData: {
         id: "0xE6FeD2aC60647aF1249d19761957859F10c7a65d",
@@ -185,6 +186,9 @@ class App extends Component {
     }
     return id_cars;
   }
+
+  // GET /cars?owner.name=acc_hash - to bi mogl delat (some tweaks probably needed tho)
+  //getCarsByOwner
 
   render() {
     if (!this.state.web3) {
