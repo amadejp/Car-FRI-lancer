@@ -9,17 +9,17 @@ export class CarMap extends Component {
     window.location = "/rent-form";
   }
 
-pokaziSkrij(id) {
-    console.log(id);
-    var items = document.getElementsByName(id);
-    for (let item of items) {
-        if (item.style.display === "none") {
-            item.style.display = "block";
-        } else {
-            item.style.display = "none";
+    pokaziSkrij(id) {
+        console.log(id);
+        var items = document.getElementsByName(id);
+        for (let item of items) {
+            if (item.style.display === "none") {
+                item.style.display = "block";
+            } else {
+                item.style.display = "none";
+            }
         }
     }
-}
 
   render() {
       if (this.props.car.name !== null) {
@@ -46,7 +46,7 @@ pokaziSkrij(id) {
             <div
             name={id}
             onClick={() => this.pokaziSkrij(id)}>
-                <FontAwesomeIcon icon={faMapMarkerAlt} className="fa-3x" style={{ color: "DarkRed" }}/>
+                <FontAwesomeIcon icon={faMapMarkerAlt} className="fa-3x" style={{ color: "DarkRed", transform: "translate(-50%, -100%)" }}/>
             </div>
         </div>
         )}
