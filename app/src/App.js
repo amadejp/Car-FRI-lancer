@@ -9,7 +9,6 @@ import RentedCars from "./components/RentedCars";
 import RentForm from "./components/RentForm";
 
 import axios from "axios";
-import Message from "./contracts/Message.json";
 import CarBooking from "./contracts/CarBooking.json";
 import getWeb3 from "./getWeb3";
 
@@ -45,19 +44,13 @@ class App extends Component {
       // Use web3 to get the user's accounts.
       const accounts = await web3.eth.getAccounts();
 
-      // Get the contract instance.
-      const networkId = await web3.eth.net.getId();
-      const deployedNetwork = Message.networks[networkId];
-      const instanceMessage = new web3.eth.Contract(
-        Message.abi,
-        deployedNetwork && deployedNetwork.address
-      );
 
       // Get the CarBooking contract instance.
-      const deployedNetwork2 = CarBooking.networks[networkId];
+      const networkId = await web3.eth.net.getId();
+      const deployedNetwork = CarBooking.networks[networkId];
       const instanceBooking = new web3.eth.Contract(
         CarBooking.abi,
-        deployedNetwork2 && deployedNetwork2.address
+        deployedNetwork && deployedNetwork.address
       );
 
       // Set web3, accounts, and contract to the state, and then proceed with an
@@ -65,8 +58,7 @@ class App extends Component {
       this.setState({
         web3: web3,
         accounts: accounts,
-        contractMessage: instanceMessage,
-        contractBooking: instanceBooking,
+        contractBooking: instanceBooking
       });
     } catch (error) {
       // Catch any errors for any of the above operations.
