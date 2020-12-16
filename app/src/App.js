@@ -3,7 +3,7 @@ import React, { Component } from "react";
 
 import NavMenu from "./components/NavMenu";
 import Cars from "./components/cars/Cars";
-import Profil from "./components/Profil";
+import Zemljevid from "./components/Zemljevid";
 import MyCars from "./components/MyCars";
 import RentedCars from "./components/RentedCars";
 import RentForm from "./components/RentForm";
@@ -241,15 +241,15 @@ class App extends Component {
               )}
             />
             <Route
-              path="/profile"
+              path="/map"
               render={(props) => (
                 <div>
                   <div className="row main">
                     <div className="col-12 main">
-                      <h1>Profil</h1>
+                      <h1>Zemljevid</h1>
                     </div>
                     <div className="card main">
-                      <Profil userData={this.state.userData} />
+                      <Zemljevid cars={this.state.cars} />
                     </div>
                   </div>
                 </div>
@@ -261,7 +261,7 @@ class App extends Component {
                 <div>
                   <div className="row main">
                     <div className="col-12 main">
-                      <h1>Profil</h1>
+                      <h1>My Cars</h1>
                     </div>
                     <div className="card main">
                       <MyCars userData={this.state.userData} />
@@ -276,7 +276,7 @@ class App extends Component {
                 <div>
                   <div className="row main">
                     <div className="col-12 main">
-                      <h1>Profil</h1>
+                      <h1>Rented Cars</h1>
                     </div>
                     <div className="card main">
                       <RentedCars userData={this.state.userData} />
