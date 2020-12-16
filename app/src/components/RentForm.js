@@ -36,7 +36,7 @@ class RentForm extends Component {
                 <img
                   className="card-img-top"
                   src={car.pic}
-                  alt="Card image cap"
+                  alt="Card cap"
                 />
               </div>
               <div className="col-md">
