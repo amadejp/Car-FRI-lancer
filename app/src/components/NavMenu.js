@@ -11,7 +11,7 @@ function NavMenu() {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
           <Nav.Link href="/">Domov</Nav.Link>
-          <Nav.Link href="/profile">Profil</Nav.Link>
+          <Nav.Link href="/map">Zemljevid</Nav.Link>
           <Nav.Link href="/cars">Moji avti</Nav.Link>
           <Nav.Link href="/rents">Izposoje</Nav.Link>
         </Nav>

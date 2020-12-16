@@ -12,7 +12,9 @@
       "owner": "0xB8cBD5Cc98eBD7a875808D742379E03993bA8038",
       "location": "Ljubljana",
       "price": 90,
-      "pic": "/images/audia4.png"
+      "pic": "/images/audia4.png",
+      "lat": 46.05029715515417,
+      "lng": 14.468899040635458
     },
     {
       "id": 2,
@@ -26,7 +28,9 @@
       "owner": "0x3b5435Dc6b5873A33f340aD4BD2958032f27c0eA",
       "location": "Koper",
       "price": 120,
-      "pic": "/images/bmwx6.png"
+      "pic": "/images/bmwx6.png",
+      "lat": 46.04475492248595,
+      "lng": 14.489425184813648
     },
     {
       "id": 3,
@@ -40,7 +44,9 @@
       "owner": "0x7d86148c1d1b53ACC536CD14C9227971E1995c91",
       "location": "Maribor",
       "price": 560,
-      "pic": "/images/bentleybentayga.png"
+      "pic": "/images/bentleybentayga.png",
+      "lat": 46.054940098220264,
+      "lng": 14.494807740635562
     }
   ]
 }
