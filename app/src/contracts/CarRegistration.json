@@ -3394,12 +3394,12 @@
     "666": {
       "events": {},
       "links": {},
-      "address": "0xA14b2Fc60bD63af3989C34aA58DDb88Fe3430e57",
-      "transactionHash": "0xe4753275ed5a3221da6168a43b48c7055d1ea8e127a62b9cf5ded71b7a5f4228"
+      "address": "0xeE5e7EcfBA5ae6E7e8773cB32055a78E5bd730D5",
+      "transactionHash": "0x6e778327e4e3e01702c2fdaceaeea704463b5f6437fa9fb81262a9ee93dc667d"
     }
   },
   "schemaVersion": "3.3.2",
-  "updatedAt": "2020-12-15T22:32:39.948Z",
+  "updatedAt": "2020-12-16T15:26:34.475Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}
