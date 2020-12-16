@@ -10,7 +10,7 @@ export class CarMap extends Component {
   render() {
       if (this.props.car.name !== null) {
         const {id, name, price} = this.props.car;
-        return <div className="card" style={{ width: "10rem", margin: "2px" }}>
+        return <div className="card" style={{ width: "fit-content", margin: "2px" }}>
             <div className="card-body">
                 <h5 className="card-title">{name}</h5>
                 <p className="card-text">{price}€ / dan</p>

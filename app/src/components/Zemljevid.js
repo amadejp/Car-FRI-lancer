@@ -22,7 +22,7 @@ class Zemljevid extends Component {
         if (this.props.cars[0] !== null) {
             
             return (
-                <div style={{ height: '100vh', width: '100vh' }}>
+                <div style={{ height: '85vh', width: '100vh' }}>
                     <GoogleMapReact
                     //bootstrapURLKeys={{ key: /* manjka key */ }}
                     defaultCenter={this.props.center}
