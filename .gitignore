@@ -71,7 +71,7 @@ Thumbs.db
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.eslintcache
-CarBooking.json
-CarRegistration.json
+app/.eslintcache
+app/src/contracts/CarBooking.json
+app/src/contracts/CarRegistration.json
 
