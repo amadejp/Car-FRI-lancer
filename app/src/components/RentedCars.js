@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import CarItem from "./cars/CarItem";
 
 class RentedCars extends Component {
   render() {
@@ -22,22 +21,22 @@ class RentedCars extends Component {
       } else {
         return (
           <tr>
-            <p>Nisi si izposodil še nobenega avtomobila.</p>
+            <td>Nisi si izposodil še nobenega avtomobila.</td>
           </tr>
         );
       }
     } else {
       return (
-        <tr>
-          <p>Nalagam...</p>
-        </tr>
+        <div>
+          <td>Nalagam...</td>
+        </div>
       );
     }
   }
 }
 
 RentedCars.propTypes = {
-  userData: PropTypes.object.isRequired,
+  rentedCars: PropTypes.array.isRequired,
 };
 
 export default RentedCars;
