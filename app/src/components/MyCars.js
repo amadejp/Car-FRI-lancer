@@ -1,29 +1,38 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import CarItem from "./cars/CarItem";
 
 // tukaj bodo prikazani avtomobili uporabnika in gumb za dodajanje novega avtomobila
 
 class MyCars extends Component {
-    render() {
-        if (this.props.userData !== null) {
-            const { id, name, ownedCars, rentedCars } = this.props.userData;
-            return (
-                <div>
-                    <p>ID : {id}</p>
-                    <p>Name : {name}</p>
-                    <p>Število mojih avtov : {ownedCars.length}</p>
-                    <p>Število izposojenih avtov : {rentedCars.length}</p>
-                </div>
-            )
-        } else {
-            return <p>Tega ne bi smel videti...</p>
-        }
+  render() {
+    console.log("1", this.props.ownedCars);
+    if (this.props.ownedCars[0] !== null) {
+      console.log("2", this.props.ownedCars);
+      if (this.props.ownedCars.length < 1) {
+        return this.props.ownedCars.map((car) => (
+          <div>
+            <p>{car.name}</p>
+          </div>
+        ));
+      } else {
+        return (
+          <div>
+            <p>Žal še nimaš dodanega avtomobila...</p>
+          </div>
+        );
+      }
+    } else {
+      return (
+        <div>
+          <p>Nalagam...</p>
+        </div>
+      );
     }
+  }
 }
 
 MyCars.propTypes = {
-    userData: PropTypes.object.isRequired
+  myCars: PropTypes.array.isRequired,
 };
 
 export default MyCars;

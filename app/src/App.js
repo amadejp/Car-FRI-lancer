@@ -30,7 +30,7 @@ class App extends Component {
     bookings: null,
     cars: [null],
     users: [null],
-    userData: null,
+    owner_cars: [null],
   };
 
   componentDidMount = async () => {
@@ -43,7 +43,6 @@ class App extends Component {
 
       // Use web3 to get the user's accounts.
       const accounts = await web3.eth.getAccounts();
-
 
       // Get the CarBooking contract instance.
       const networkId = await web3.eth.net.getId();
@@ -58,7 +57,7 @@ class App extends Component {
       this.setState({
         web3: web3,
         accounts: accounts,
-        contractBooking: instanceBooking
+        contractBooking: instanceBooking,
       });
     } catch (error) {
       // Catch any errors for any of the above operations.
@@ -71,7 +70,11 @@ class App extends Component {
     axios.get("/cars").then((res) => this.setState({ cars: res.data }));
     axios.get("/users").then((res) => this.setState({ users: res.data }));
 
-    // trenutno kar hardcodan ta uporabnik (moji avti + izposoja naj bo od zdaj naprej prek web3 vse)
+    // get cars owned by this account
+    axios
+      .get("/cars?owner=" + this.state.accounts[0])
+      .then((res) => this.setState({ owner_cars: res.data }));
+
     this.setState({
       userData: {
         id: "0xE6FeD2aC60647aF1249d19761957859F10c7a65d",
@@ -80,17 +83,12 @@ class App extends Component {
         rentedCars: [3],
       },
     });
-    /*
-    axios
-      .get("/users/" + this.state.accounts[0])
-      .then((res) => this.setState({ userData: res.data }));
-      */
   };
 
-  // najboljše da se tukaj console loga
   componentDidUpdate() {
-    //console.log(this.state.contractMessage);
-    console.log(this.state.bookings);
+    //console.log("mycars: ", this.state.owner_cars);
+    console.log(this.getRentsByUser("2"));
+    //console.log(this.state.bookings);
     // console.log(this.getCarsById([localStorage.getItem("reservation")]));
   }
 
@@ -104,6 +102,7 @@ class App extends Component {
 
       const { accounts, contractBooking } = this.state;
 
+      // define needed variables
       const form = event.target;
       const carId = parseInt(this.getReservation().car);
       const car = this.getCarsById([carId])[0];
@@ -116,6 +115,7 @@ class App extends Component {
       var price_eur = lor * car.price;
       var price_eth = await this.convert(price_eur);
 
+      // sign the contract
       await contractBooking.methods
         .confirmBooking(owner, user, startDate, endDate, price_eur)
         .send({ from: accounts[0] });
@@ -185,7 +185,6 @@ class App extends Component {
       .get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=EUR")
       .then((res) => {
         exc = res.data;
-        console.log(exc.EUR);
         price_eth = price_eur * (1 / exc.EUR);
       });
 
@@ -205,8 +204,15 @@ class App extends Component {
     return id_cars;
   }
 
-  // GET /cars?owner.name=acc_hash - to bi mogl delat (some tweaks probably needed tho)
-  //getCarsByOwner() {}
+  async getRentsByUser(user) {
+    var rents = [];
+    const { contractBooking } = this.state;
+    const response = await contractBooking.methods.getBookings().call();
+    response.forEach((booking) => {
+      console.log(booking);
+      console.log(booking._user);
+    });
+  }
 
   render() {
     if (!this.state.web3) {
@@ -230,11 +236,8 @@ class App extends Component {
               exact
               path="/"
               render={(props) => (
-                <div className="row">
-                  <div className="col-12 main">
-                    <h1>Dobrodošli na Car FRI-lancer!</h1>
-                  </div>
-                  <div className="col-12 main">
+                <div className="container">
+                  <div className="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
                     <Cars cars={this.state.cars} />
                   </div>
                 </div>
@@ -264,7 +267,7 @@ class App extends Component {
                       <h1>My Cars</h1>
                     </div>
                     <div className="card main">
-                      <MyCars userData={this.state.userData} />
+                      <MyCars ownedCars={this.state.owner_cars} />
                     </div>
                   </div>
                 </div>

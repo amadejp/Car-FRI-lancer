@@ -14,7 +14,8 @@
       "price": 90,
       "pic": "/images/audia4.png",
       "lat": 46.05029715515417,
-      "lng": 14.468899040635458
+      "lng": 14.468899040635458,
+      "available": true
     },
     {
       "id": 2,
@@ -26,11 +27,12 @@
       "year": 2012,
       "type": "SUV",
       "owner": "0x3b5435Dc6b5873A33f340aD4BD2958032f27c0eA",
-      "location": "Koper",
+      "location": "Ljubljana",
       "price": 120,
       "pic": "/images/bmwx6.png",
       "lat": 46.04475492248595,
-      "lng": 14.489425184813648
+      "lng": 14.489425184813648,
+      "available": true
     },
     {
       "id": 3,
@@ -42,11 +44,46 @@
       "year": 2018,
       "type": "SUV",
       "owner": "0x7d86148c1d1b53ACC536CD14C9227971E1995c91",
-      "location": "Maribor",
+      "location": "Ljubljana",
       "price": 560,
       "pic": "/images/bentleybentayga.png",
       "lat": 46.054940098220264,
-      "lng": 14.494807740635562
+      "lng": 14.494807740635562,
+      "available": true
+    },
+    {
+      "id": 4,
+      "name": "VW Golf R",
+      "power": 310,
+      "acc": 5.1,
+      "drive": "AWD",
+      "trans": "avtomatski",
+      "year": 2018,
+      "type": "kombilimuzina",
+      "owner": "0x3b5435Dc6b5873A33f340aD4BD2958032f27c0eA",
+      "location": "Kranj",
+      "price": 95,
+      "pic": "/images/vwgolf.png",
+      "lat": 46.24472587890589, 
+      "lng": 14.35450667786024,
+      "available": true
+    },
+    {
+      "id": 5,
+      "name": "VW e-Golf",
+      "power": 134,
+      "acc": 9.9,
+      "drive": "FWD",
+      "trans": "avtomatski",
+      "year": 2017,
+      "type": "kombilimuzina - ELEKTRIČNO vozilo",
+      "owner": "0x7d86148c1d1b53ACC536CD14C9227971E1995c91",
+      "location": "Kranj",
+      "price": 40,
+      "pic": "/images/vwegolf.png",
+      "lat": 46.2447408229277, 
+      "lng": 14.357730259988175,
+      "available": true
     }
   ]
 }

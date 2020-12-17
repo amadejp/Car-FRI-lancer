@@ -15,6 +15,7 @@ contract CarBooking{
         string _rentStart;
         string _rentEnd;
         uint _rentCost;
+        bool _closed;
     }
     
     constructor() public{
@@ -30,19 +31,28 @@ contract CarBooking{
         ) 
         public {
         incrementCount();
-        bookings[bookingCount] = Booking(bookingCount, _carOwner, _user, _rentStart, _rentEnd, _rentCost);
+        bookings[bookingCount] = Booking(bookingCount, _carOwner, _user, _rentStart, _rentEnd, _rentCost, false);
     }
     
     function incrementCount() internal {
         bookingCount++;
     }
     
-    function getBookings() public view returns (Booking[] memory){
+    function getBookings() 
+        public view
+        returns (Booking[] memory)
+    {
         Booking[] memory bookings_array = new Booking[](bookingCount);
         for (uint i = 0; i < bookingCount; i++) {
             bookings_array[i] = bookings[i];
         }
         
         return bookings_array;
+    }
+
+    function closeBooking(uint id)
+        public
+        {
+        bookings[id]._closed = true;
     }
 }
