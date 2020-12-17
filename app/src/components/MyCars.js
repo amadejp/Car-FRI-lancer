@@ -10,9 +10,17 @@ class MyCars extends Component {
       console.log("2", this.props.ownedCars);
       if (this.props.ownedCars.length > 0) {
         return this.props.ownedCars.map((car) => (
-          <div>
-            <p>{car.name}</p>
-          </div>
+            <tr>
+                <td>{car.name}</td>
+                <td>{car.year}</td>
+                <td>{car.location}</td>
+                <td>
+                    {car.price}
+                </td>
+                <td>
+                    {(!car.available).toString()}
+                </td>
+            </tr>
         ));
       } else {
         return (
