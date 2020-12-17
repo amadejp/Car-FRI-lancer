@@ -16,7 +16,7 @@ export class CarItem extends Component {
   }
 
   render() {
-    if (this.props.car.name !== null && this.props.car.available) {
+    if (this.props.car.name !== null && this.props.car.available === "true") {
       const { id, name, pic, trans, power, acc, price } = this.props.car;
       return (
         <div className="col auto mb-4">

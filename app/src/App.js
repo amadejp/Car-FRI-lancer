@@ -9,6 +9,7 @@ import RentedCars from "./components/RentedCars";
 import RentForm from "./components/RentForm";
 
 import Table from "react-bootstrap/Table";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import axios from "axios";
 import CarBooking from "./contracts/CarBooking.json";
@@ -32,7 +33,8 @@ class App extends Component {
     cars: [null],
     users: [null],
     ownedCars: [null],
-    rentedCars: [null]
+    rentedCars: [null],
+    endRent_car: null,
   };
 
   componentDidMount = async () => {
@@ -78,12 +80,11 @@ class App extends Component {
     axios
       .get("/cars?owner=" + this.state.accounts[0])
       .then((res) => this.setState({ ownedCars: res.data }));
-
   };
 
   componentDidUpdate() {
     //console.log(this.getRentsByUser());
-    console.log("bookings", this.state.bookings)
+    console.log("bookings", this.state.bookings);
     //console.log(this.state.bookings);
     // console.log(this.getCarsById([localStorage.getItem("reservation")]));
   }
@@ -133,7 +134,11 @@ class App extends Component {
                 transactionHash
               );
               MySwal.fire(
-                "Avto lahko prevzameš\n" + startDate + " ob " + time + "\n na lokaciji: ",
+                "Avto lahko prevzameš\n" +
+                  startDate +
+                  " ob " +
+                  time +
+                  "\n na lokaciji: ",
                 "transaction hash: " + transactionHash.toString(),
                 "success"
               );
@@ -147,16 +152,17 @@ class App extends Component {
   }
 
   async onCloseBooking(event) {
+    console.log("state car rented: ", this.state.endRent_car);
+    console.log(event.target);
     const form = event.target;
-    const carId = form.id.value;
-    
+    const carId = form.endRent.value;
+    console.log(carId);
   }
 
   async onChangePrice(event) {
     const form = event.target;
     const carId = form.id.value;
     const newPrice = form.price.value;
-
   }
 
   setBooking(name) {
@@ -219,14 +225,17 @@ class App extends Component {
     response.forEach((booking) => {
       if (booking._user === this.state.accounts[0]) {
         rents.push(booking);
-      }
-      else {
-        console.log("Nisi si izposodil še nobenega avtomobila.")
+      } else {
+        console.log("Nisi si izposodil še nobenega avtomobila.");
       }
     });
 
-    this.setState({rentedCars: rents});
+    this.setState({ rentedCars: rents });
   }
+
+  changeCar_endRent = (id) => {
+    this.setState({ endRent_car: id });
+  };
 
   render() {
     if (!this.state.web3) {
@@ -276,34 +285,50 @@ class App extends Component {
               path="/cars"
               render={(props) => (
                 <div className="container">
+                  {" "}
                   <div className="row main">
                     <div className="col-12 main">
-                      <h1>My Cars</h1>
+                      <h1>Moji avtomobili</h1>
                     </div>
-                    <Table 
-                    striped 
-                    bordered 
-                    hover>
-                        <thead>
-                            <tr>
-                                <th>Ime</th>
-                                <th>Leto</th>
-                                <th>Lokacija</th>
-                                <th>Cena</th>
-                                <th>Izposojen?</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <MyCars ownedCars={this.state.ownedCars} />
-                        </tbody>
+                    <Table striped bordered hover>
+                      <thead>
+                        <tr>
+                          <th>Ime</th>
+                          <th>Leto</th>
+                          <th>Lokacija</th>
+                          <th>Cena</th>
+                          <th>Na voljo</th>
+                          <th>Končaj izposojo</th>
+                        </tr>
+                      </thead>{" "}
+                      <tbody>
+                        <MyCars
+                          ownedCars={this.state.ownedCars}
+                          onSubmit={this.onCloseBooking}
+                        />
+                      </tbody>
                     </Table>
                   </div>
-                    <a href="/addCarForm">
-                      <button
-                      className="btn btn-success">
-                        Dodaj avto
+                  <a href="/addCarForm">
+                    <button className="btn btn-success">Dodaj avto</button>
+                  </a>
+                  <div style={{ float: "right" }}>
+                    <OverlayTrigger
+                      key="bottom"
+                      placement="bottom"
+                      overlay={
+                        <Tooltip id={`tooltip-bottom`}>
+                          POZOR! S potrditvijo boste zaključili izposojo in s
+                          tem zagotavljate, da je avto vrnjen in je z njim vse v
+                          redu.
+                        </Tooltip>
+                      }
+                    >
+                      <button type="submit" className="btn btn-secondary">
+                        Potrdi
                       </button>
-                    </a>
+                    </OverlayTrigger>
+                  </div>
                 </div>
               )}
             />
@@ -315,22 +340,19 @@ class App extends Component {
                     <div className="col-12 main">
                       <h1>Rented Cars</h1>
                     </div>
-                    <Table 
-                    striped 
-                    bordered 
-                    hover>
-                        <thead>
-                            <tr>
-                                <th>Ime</th>
-                                <th>Leto</th>
-                                <th>Lokacija</th>
-                                <th>Cena</th>
-                                <th>Izposojen?</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <RentedCars rentedCars={this.state.rentedCars} />
-                        </tbody>
+                    <Table striped bordered hover>
+                      <thead>
+                        <tr>
+                          <th>Ime</th>
+                          <th>Leto</th>
+                          <th>Lokacija</th>
+                          <th>Cena</th>
+                          <th>Izposojen?</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <RentedCars rentedCars={this.state.rentedCars} />
+                      </tbody>
                     </Table>
                   </div>
                 </div>
