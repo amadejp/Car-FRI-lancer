@@ -8,6 +8,8 @@ import MyCars from "./components/MyCars";
 import RentedCars from "./components/RentedCars";
 import RentForm from "./components/RentForm";
 
+import Table from "react-bootstrap/Table";
+
 import axios from "axios";
 import CarBooking from "./contracts/CarBooking.json";
 import getWeb3 from "./getWeb3";
@@ -273,29 +275,63 @@ class App extends Component {
             <Route
               path="/cars"
               render={(props) => (
-                <div>
+                <div className="container">
                   <div className="row main">
                     <div className="col-12 main">
                       <h1>My Cars</h1>
                     </div>
-                    <div className="card main">
-                      <MyCars ownedCars={this.state.ownedCars} />
-                    </div>
+                    <Table 
+                    striped 
+                    bordered 
+                    hover>
+                        <thead>
+                            <tr>
+                                <th>Ime</th>
+                                <th>Leto</th>
+                                <th>Lokacija</th>
+                                <th>Cena</th>
+                                <th>Izposojen?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <MyCars ownedCars={this.state.ownedCars} />
+                        </tbody>
+                    </Table>
                   </div>
+                    <a href="/addCarForm">
+                      <button
+                      className="btn btn-success">
+                        Dodaj avto
+                      </button>
+                    </a>
                 </div>
               )}
             />
             <Route
               path="/rents"
               render={(props) => (
-                <div>
+                <div className="container">
                   <div className="row main">
                     <div className="col-12 main">
                       <h1>Rented Cars</h1>
                     </div>
-                    <div className="card main">
-                      <RentedCars rentedCars={this.state.rentedCars} />
-                    </div>
+                    <Table 
+                    striped 
+                    bordered 
+                    hover>
+                        <thead>
+                            <tr>
+                                <th>Ime</th>
+                                <th>Leto</th>
+                                <th>Lokacija</th>
+                                <th>Cena</th>
+                                <th>Izposojen?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <RentedCars rentedCars={this.state.rentedCars} />
+                        </tbody>
+                    </Table>
                   </div>
                 </div>
               )}
