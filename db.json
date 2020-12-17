@@ -43,7 +43,7 @@
       "trans": "avtomatski",
       "year": 2018,
       "type": "SUV",
-      "owner": "0xB8cBD5Cc98eBD7a875808D742379E03993bA8038",
+      "owner": "0xf2b32834FbE1e65BE6c397B11f5cD7443631db55",
       "location": "Ljubljana",
       "price": 560,
       "pic": "/images/bentleybentayga.png",
@@ -60,7 +60,7 @@
       "trans": "avtomatski",
       "year": 2018,
       "type": "kombilimuzina",
-      "owner": "0x3b5435Dc6b5873A33f340aD4BD2958032f27c0eA",
+      "owner": "0x7d86148c1d1b53ACC536CD14C9227971E1995c91",
       "location": "Kranj",
       "price": 95,
       "pic": "/images/vwgolf.png",
@@ -77,13 +77,13 @@
       "trans": "avtomatski",
       "year": 2017,
       "type": "kombilimuzina - ELEKTRIČNO vozilo",
-      "owner": "0x3b5435Dc6b5873A33f340aD4BD2958032f27c0eA",
+      "owner": "0x7d86148c1d1b53ACC536CD14C9227971E1995c91",
       "location": "Kranj",
       "price": 40,
       "pic": "/images/vwegolf.png",
       "lat": 46.2447408229277,
       "lng": 14.357730259988175,
-      "available": true
+      "available": "true"
     },
     {
       "name": "Audi A6",
@@ -93,12 +93,12 @@
       "trans": "avtomatski menjalnik",
       "year": 2017,
       "type": "Karavan",
-      "owner": "0x1917e2bc2FeaeF8a2ECE7ABf1217B21F817D4Db9",
+      "owner": "0xB8cBD5Cc98eBD7a875808D742379E03993bA8038",
       "price": 100,
       "pic": "/images/audia6.png",
       "lat": 46.0850058,
       "lng": 14.5129,
-      "available": true,
+      "available": "true",
       "id": 6
     },
     {
@@ -109,12 +109,12 @@
       "trans": "ročni menjalnik",
       "year": 1934,
       "type": "Kabriolet",
-      "owner": "0x1917e2bc2FeaeF8a2ECE7ABf1217B21F817D4Db9",
+      "owner": "0xB8cBD5Cc98eBD7a875808D742379E03993bA8038",
       "price": 419,
       "pic": "/images/bmw315.png",
       "lat": 46.128227,
       "lng": 14.4985153,
-      "available": true,
+      "available": "true",
       "id": 7
     },
     {
@@ -125,12 +125,12 @@
       "trans": "avtomatski menjalnik",
       "year": 2020,
       "type": "Karavan",
-      "owner": "0x1917e2bc2FeaeF8a2ECE7ABf1217B21F817D4Db9",
+      "owner": "0x3b5435Dc6b5873A33f340aD4BD2958032f27c0eA",
       "price": 300,
       "pic": "/images/audiq845tdiquattro.png",
       "lat": 46.2428344,
       "lng": 14.3555417,
-      "available": true,
+      "available": "true",
       "id": 8
     },
     {
@@ -141,12 +141,12 @@
       "trans": "ročni menjalnik",
       "year": 2019,
       "type": "Terenec",
-      "owner": "0x1917e2bc2FeaeF8a2ECE7ABf1217B21F817D4Db9",
+      "owner": "0x3b5435Dc6b5873A33f340aD4BD2958032f27c0eA",
       "price": 85,
       "pic": "/images/fordranger.png",
       "lat": 46.0706937,
       "lng": 14.4876755,
-      "available": true,
+      "available": "true",
       "id": 9
     }
   ]
