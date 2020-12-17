@@ -3,11 +3,6 @@ import PropTypes from "prop-types";
 import GoogleMapReact from "google-map-react";
 import CarMap from "./CarMap";
 
-// profila bi se jst čist znebil... v db bi mel samo avte, na spletni strani
-// pa bi user lahko navigiru med domov, zemljevid, (trenutne) izposoje, moji avti (naj bodo stanja prisotna - ali je izposjen ali ne,
-//                                                          zato da lahko car owner ob koncu izposoje potrdi in konča rent)
-
-
 class Zemljevid extends Component {
     
     static defaultProps = {
@@ -24,7 +19,7 @@ class Zemljevid extends Component {
             return (
                 <div style={{ height: '85vh', width: '100vh' }}>
                     <GoogleMapReact
-                    //bootstrapURLKeys={{ key: /* manjka key */ }}
+                    bootstrapURLKeys={{ key: "YourGoogleMapsAPI" }}
                     defaultCenter={this.props.center}
                     defaultZoom={this.props.zoom}
                     >   
