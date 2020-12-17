@@ -7,6 +7,7 @@ import Zemljevid from "./components/Zemljevid";
 import MyCars from "./components/MyCars";
 import RentedCars from "./components/RentedCars";
 import RentForm from "./components/RentForm";
+import AddCarForm from "./components/AddCarForm";
 
 import Table from "react-bootstrap/Table";
 
@@ -336,7 +337,19 @@ class App extends Component {
                 </div>
               )}
             />
-            <Route path="/rentform" component={RentForm} />
+            <Route 
+              path="/addCarForm"
+              render={(props) => (
+                  <div className="container">
+                    <div>
+                        <h1>Dodaj nov avto</h1>
+                    </div>
+                    <AddCarForm
+                    onSubmit={this.handleSubmit}
+                    />
+                  </div>
+              )}
+            />
             <Route
               path="/rent-form"
               render={(props) => (
