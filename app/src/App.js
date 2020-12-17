@@ -25,17 +25,16 @@ class App extends Component {
   state = {
     web3: null,
     accounts: null,
-    contractMessage: null,
     contractBooking: null,
     bookings: null,
     cars: [null],
     users: [null],
-    owner_cars: [null],
+    ownedCars: [null],
+    rentedCars: [null]
   };
 
   componentDidMount = async () => {
     try {
-      this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
 
       // Get network provider and web3 instance.
@@ -67,33 +66,24 @@ class App extends Component {
       console.error(error);
     }
 
+    await this.getRentsByUser();
+    // this.setState({rentedCars: user_rentedCars});
+    console.log("init", this.state.rentedCars);
+
     axios.get("/cars").then((res) => this.setState({ cars: res.data }));
-    axios.get("/users").then((res) => this.setState({ users: res.data }));
 
     // get cars owned by this account
     axios
       .get("/cars?owner=" + this.state.accounts[0])
-      .then((res) => this.setState({ owner_cars: res.data }));
+      .then((res) => this.setState({ ownedCars: res.data }));
 
-    this.setState({
-      userData: {
-        id: "0xE6FeD2aC60647aF1249d19761957859F10c7a65d",
-        name: "Janez Novak haha",
-        ownedCars: [2],
-        rentedCars: [3],
-      },
-    });
   };
 
   componentDidUpdate() {
-    //console.log("mycars: ", this.state.owner_cars);
-    console.log(this.getRentsByUser("2"));
+    //console.log(this.getRentsByUser());
+    console.log("rented cars", this.state.rentedCars)
     //console.log(this.state.bookings);
     // console.log(this.getCarsById([localStorage.getItem("reservation")]));
-  }
-
-  handleChange(event) {
-    this.setState({ newValue: event.target.value });
   }
 
   async handleSubmit(event) {
@@ -117,10 +107,11 @@ class App extends Component {
 
       // sign the contract
       await contractBooking.methods
-        .confirmBooking(owner, user, startDate, endDate, price_eur)
+        .confirmBooking(carId, owner, user, startDate, endDate, price_eur)
         .send({ from: accounts[0] });
       const response = await contractBooking.methods.getBookings().call();
       this.setState({ bookings: response });
+      await this.getRentsByUser();
 
       // send eth
       const web3 = this.state.web3;
@@ -204,14 +195,21 @@ class App extends Component {
     return id_cars;
   }
 
-  async getRentsByUser(user) {
+  async getRentsByUser() {
+    // zaenkrat user == current account
     var rents = [];
     const { contractBooking } = this.state;
     const response = await contractBooking.methods.getBookings().call();
     response.forEach((booking) => {
-      console.log(booking);
-      console.log(booking._user);
+      if (booking._user === this.state.accounts[0]) {
+        rents.push(booking);
+      }
+      else {
+        console.log("Nisi si izposodil še nobenega avtomobila.")
+      }
     });
+
+    this.setState({rentedCars: rents});
   }
 
   render() {
@@ -267,7 +265,7 @@ class App extends Component {
                       <h1>My Cars</h1>
                     </div>
                     <div className="card main">
-                      <MyCars ownedCars={this.state.owner_cars} />
+                      <MyCars ownedCars={this.state.ownedCars} />
                     </div>
                   </div>
                 </div>
@@ -282,7 +280,7 @@ class App extends Component {
                       <h1>Rented Cars</h1>
                     </div>
                     <div className="card main">
-                      <RentedCars userData={this.state.userData} />
+                      <RentedCars rentedCars={this.state.rentedCars} />
                     </div>
                   </div>
                 </div>

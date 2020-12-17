@@ -8,7 +8,7 @@ class MyCars extends Component {
     console.log("1", this.props.ownedCars);
     if (this.props.ownedCars[0] !== null) {
       console.log("2", this.props.ownedCars);
-      if (this.props.ownedCars.length < 1) {
+      if (this.props.ownedCars.length > 0) {
         return this.props.ownedCars.map((car) => (
           <div>
             <p>{car.name}</p>

@@ -16,38 +16,38 @@ export class CarItem extends Component {
   }
 
   render() {
-    if (this.props.car.name !== null) {
+    if (this.props.car.name !== null && this.props.car.available) {
       const { id, name, pic, trans, power, acc, price } = this.props.car;
       return (
-        <div className="card" style={{ width: "16rem", margin: "10px" }}>
-          <img className="card-img-top" src={pic} alt="Card image cap" />
-          <div className="card-body">
-            <h5 className="card-title">{name}</h5>
-            <p className="card-text">
-              <FontAwesomeIcon icon={faBolt} /> {power} KM
-            </p>
-            <p className="card-text">
-              <FontAwesomeIcon icon={faTachometerAlt} /> {acc} s do 100 km/h
-            </p>
-            <p className="card-text">
-              <FontAwesomeIcon icon={faCog} /> {trans} menjalnik
-            </p>
-            <div>
-              <p className="Car-price">{price}€ / dan</p>
-              <button
-                onClick={() => this.setReservation(id)}
-                className="btn btn-primary"
-              >
-                Naroči
-              </button>
+        <div className="col auto mb-4">
+          <div className="card" style={{ width: "16rem", margin: "10px" }}>
+            <img className="card-img-top" src={pic} alt="car pic" />
+            <div className="card-body">
+              <h5 className="card-title">{name}</h5>
+              <p className="card-text">
+                <FontAwesomeIcon icon={faBolt} /> {power} KM
+              </p>
+              <p className="card-text">
+                <FontAwesomeIcon icon={faTachometerAlt} /> {acc} s do 100 km/h
+              </p>
+              <p className="card-text">
+                <FontAwesomeIcon icon={faCog} /> {trans} menjalnik
+              </p>
+              <div>
+                <p className="Car-price">{price}€ / dan</p>
+                <button
+                  onClick={() => this.setReservation(id)}
+                  className="btn btn-primary"
+                >
+                  Naroči
+                </button>
+              </div>
             </div>
           </div>
         </div>
       );
     } else {
-      {
-        return <p>Žal ni na voljo nobenega avtomobila.</p>;
-      }
+      return <></>;
     }
   }
 }

@@ -10,6 +10,7 @@ contract CarBooking{
     
     struct Booking {
         uint _id;
+        uint _carId;
         string _carOwner;
         string _user;
         string _rentStart;
@@ -23,6 +24,7 @@ contract CarBooking{
     }
     
     function confirmBooking(
+        uint _carId,
         string memory _carOwner,
         string memory _user,
         string memory _rentStart,
@@ -31,7 +33,7 @@ contract CarBooking{
         ) 
         public {
         incrementCount();
-        bookings[bookingCount] = Booking(bookingCount, _carOwner, _user, _rentStart, _rentEnd, _rentCost, false);
+        bookings[bookingCount] = Booking(bookingCount, _carId, _carOwner, _user, _rentStart, _rentEnd, _rentCost, false);
     }
     
     function incrementCount() internal {
