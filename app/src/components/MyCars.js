@@ -8,7 +8,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 class MyCars extends Component {
-
   availabilityIcon(available) {
     if (available === "true") {
       return (
@@ -31,25 +30,28 @@ class MyCars extends Component {
     }
   }
 
-  needsPotrditev(available, id) {
+  needsRadioButton(available, id) {
     if (available === "true") {
-      return <td></td>;
-    } else if (available === "pending") {
-      return (
-        <td>
-          <div>
-            <form onSubmit={this.props.onSubmit}>
-              <input hidden value={id} name="rentEnd"></input>
-              <button className="btn btn-primary" type="submit">
-                Potrdi
-              </button>
-            </form>
-          </div>
-        </td>
-      );
-    } else {
-      return <td></td>;
-    }
+        return (
+            <td></td>
+        );
+      } else if (available === "pending") {
+        return (
+            <td>
+            <input
+              className="form-check-input ml-1"
+              type="radio"
+              name="endRent"
+              value={id}
+              form="endRent_form"
+            ></input>
+          </td>
+        );
+      } else {
+        return (
+            <td></td>
+        );
+      }
   }
 
   render() {
@@ -61,8 +63,8 @@ class MyCars extends Component {
             <td>{car.year}</td>
             <td>{car.location}</td>
             <td>{car.price}</td>
-            {this.availabilityIcon(car.available, car.id)}
-            {this.needsPotrditev(car.available)}
+            {this.availabilityIcon(car.available)}
+            {this.needsRadioButton(car.available, car.id)}
           </tr>
         ));
       } else {
