@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import React, { Component } from "react";
+import Geocode from "react-geocode";
 
 import NavMenu from "./components/NavMenu";
 import Cars from "./components/cars/Cars";
@@ -87,6 +88,66 @@ class App extends Component {
     console.log("bookings", this.state.bookings)
     //console.log(this.state.bookings);
     // console.log(this.getCarsById([localStorage.getItem("reservation")]));
+  }
+
+  async handleAdd(event) {
+    try {
+        event.preventDefault();
+        Geocode.setApiKey("YourGoogleMapsAPI");
+        Geocode.setRegion("SI");
+
+        const form = event.target;
+        const name = form.name.value.toString();
+        const type = form.type.value.toString();
+        const power = parseInt(form.power.value);
+        const acc = parseFloat(form.acceleration.value);
+        const gear = form.gear.value.toString();
+        const drive = form.drive.value.toString();
+        const year = parseInt(form.year.value);
+        const location = form.location.value.toString();
+        const price = parseInt(form.price.value);
+        const owner = this.state.accounts[0];
+        var pic = name.toLowerCase();
+        pic = pic.replace(/\s+/g, '');
+        pic = "/images/" + pic + ".png";
+
+        Geocode.fromAddress(location).then(
+            response => {
+                const { lat, lng } = response.results[0].geometry.location;
+                //console.log(lat, lng);
+                axios
+                    .post("/cars", {
+                        name: name,
+                        power: power,
+                        acc: acc,
+                        drive: drive,
+                        trans: gear,
+                        year: year,
+                        type: type,
+                        owner: owner,
+                        price: price,
+                        pic: pic,
+                        lat: lat,
+                        lng: lng,
+                        available: true
+                    })
+                    .then((res) => {
+                        MySwal.fire(
+                            "Uspešna registracija\n" + name,
+                            "Na voljo: true",
+                            "success"
+                        ).then(() => {
+                            window.location = "/cars";
+                        });
+                    });
+            },
+            error => {
+                console.log(error);
+            }
+        );
+    } catch (error) {
+        console.log(error);
+    }
   }
 
   async handleSubmit(event) {
@@ -299,7 +360,7 @@ class App extends Component {
                         </tbody>
                     </Table>
                   </div>
-                    <a href="/addCarForm">
+                    <a href="/add-form">
                       <button
                       className="btn btn-success">
                         Dodaj avto
@@ -338,14 +399,14 @@ class App extends Component {
               )}
             />
             <Route 
-              path="/addCarForm"
+              path="/add-form"
               render={(props) => (
                   <div className="container">
                     <div>
                         <h1>Dodaj nov avto</h1>
                     </div>
                     <AddCarForm
-                    onSubmit={this.handleSubmit}
+                    onSubmit={this.handleAdd.bind(this)}
                     />
                   </div>
               )}
