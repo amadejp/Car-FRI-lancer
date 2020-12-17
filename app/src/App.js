@@ -35,7 +35,7 @@ class App extends Component {
     cars: [null],
     users: [null],
     ownedCars: [null],
-    rentedCars: [null],
+    userBookings: [null],
     endRent_car: null,
   };
 
@@ -73,8 +73,8 @@ class App extends Component {
     }
 
     await this.getRentsByUser();
-    // this.setState({rentedCars: user_rentedCars});
-    console.log("init", this.state.rentedCars);
+    // this.setState({userBookings: user_userBookings});
+    console.log("init", this.state.userBookings);
 
     axios.get("/cars").then((res) => this.setState({ cars: res.data }));
 
@@ -86,7 +86,7 @@ class App extends Component {
 
   componentDidUpdate() {
     //console.log(this.getRentsByUser());
-    console.log("bookings", this.state.bookings);
+    console.log("bookings", this.state.userBookings);
     //console.log(this.state.bookings);
     // console.log(this.getCarsById([localStorage.getItem("reservation")]));
   }
@@ -128,9 +128,10 @@ class App extends Component {
               owner: owner,
               price: price,
               pic: pic,
+              location: location,
               lat: lat,
               lng: lng,
-              available: true,
+              available: "true",
             })
             .then((res) => {
               MySwal.fire(
@@ -223,7 +224,6 @@ class App extends Component {
         available: true,
       })
       .then((r) => console.log(r.status));
-      
   }
 
   async onChangePrice(event) {
@@ -292,12 +292,13 @@ class App extends Component {
     response.forEach((booking) => {
       if (booking._user === this.state.accounts[0]) {
         rents.push(booking);
+
       } else {
         console.log("Nisi si izposodil še nobenega avtomobila.");
       }
     });
 
-    this.setState({ rentedCars: rents });
+    this.setState({ userBookings: rents });
   }
 
   changeCar_endRent = (id) => {
@@ -379,9 +380,6 @@ class App extends Component {
                       </Table>
                     </div>
 
-                    <a href="/add-form">
-                      <button className="btn btn-success">Dodaj avto</button>
-                    </a>
                     <div style={{ float: "right" }}>
                       <OverlayTrigger
                         key="bottom"
@@ -400,6 +398,9 @@ class App extends Component {
                       </OverlayTrigger>
                     </div>
                   </form>
+                  <a href="/add-form">
+                    <button className="btn btn-success">Dodaj avto</button>
+                  </a>
                 </div>
               )}
             />
@@ -422,7 +423,7 @@ class App extends Component {
                         </tr>
                       </thead>
                       <tbody>
-                        <RentedCars rentedCars={this.state.rentedCars} />
+                        <RentedCars userBookings={this.state.userBookings} />
                       </tbody>
                     </Table>
                   </div>
