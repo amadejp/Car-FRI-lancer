@@ -16,7 +16,7 @@ contract CarBooking{
         string _rentStart;
         string _rentEnd;
         uint _rentCost;
-        bool _closed;
+        bool _opened;
     }
     
     constructor() public{
@@ -33,7 +33,7 @@ contract CarBooking{
         ) 
         public {
         incrementCount();
-        bookings[bookingCount] = Booking(bookingCount, _carId, _carOwner, _user, _rentStart, _rentEnd, _rentCost, false);
+        bookings[bookingCount] = Booking(bookingCount, _carId, _carOwner, _user, _rentStart, _rentEnd, _rentCost, true);
     }
     
     function incrementCount() internal {
@@ -55,6 +55,6 @@ contract CarBooking{
     function closeBooking(uint id)
         public
         {
-        bookings[id]._closed = true;
+        bookings[id]._opened = false;
     }
 }

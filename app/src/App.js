@@ -81,7 +81,7 @@ class App extends Component {
 
   componentDidUpdate() {
     //console.log(this.getRentsByUser());
-    console.log("rented cars", this.state.rentedCars)
+    console.log("bookings", this.state.bookings)
     //console.log(this.state.bookings);
     // console.log(this.getCarsById([localStorage.getItem("reservation")]));
   }
@@ -98,6 +98,7 @@ class App extends Component {
       const car = this.getCarsById([carId])[0];
       const owner = car.owner;
       const user = this.state.accounts[0];
+      const time = form.startTime.value.toString();
       const startDate = form.startDate.value.toString();
       const endDate = form.endDate.value.toString();
       // calculate length of rental in days (for cost calculations)
@@ -130,7 +131,7 @@ class App extends Component {
                 transactionHash
               );
               MySwal.fire(
-                "Uspešno oddano naročilo.",
+                "Avto lahko prevzameš\n" + startDate + " ob " + time + "\n na lokaciji: ",
                 "transaction hash: " + transactionHash.toString(),
                 "success"
               );
@@ -141,6 +142,19 @@ class App extends Component {
     } catch (err) {
       console.log(err);
     }
+  }
+
+  async onCloseBooking(event) {
+    const form = event.target;
+    const carId = form.id.value;
+    
+  }
+
+  async onChangePrice(event) {
+    const form = event.target;
+    const carId = form.id.value;
+    const newPrice = form.price.value;
+
   }
 
   setBooking(name) {
