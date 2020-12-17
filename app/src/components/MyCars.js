@@ -22,16 +22,16 @@ class MyCars extends Component {
         ));
       } else {
         return (
-          <div>
+          <tr>
             <p>Žal še nimaš dodanega avtomobila...</p>
-          </div>
+          </tr>
         );
       }
     } else {
       return (
-        <div>
+        <tr>
           <p>Nalagam...</p>
-        </div>
+        </tr>
       );
     }
   }

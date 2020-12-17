@@ -21,16 +21,16 @@ class RentedCars extends Component {
         ));
       } else {
         return (
-          <div>
+          <tr>
             <p>Nisi si izposodil še nobenega avtomobila.</p>
-          </div>
+          </tr>
         );
       }
     } else {
       return (
-        <div>
+        <tr>
           <p>Nalagam...</p>
-        </div>
+        </tr>
       );
     }
   }
