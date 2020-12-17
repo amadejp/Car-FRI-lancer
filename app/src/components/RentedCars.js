@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 
 class RentedCars extends Component {
   render() {
-    if (this.props.rentedCars !== undefined) {
-      if (this.props.rentedCars.length > 0 && this.props.rentedCars[0] !== null) {
-        return this.props.rentedCars.map((rent) => (
+    if (this.props.userBookings !== undefined) {
+      if (this.props.userBookings.length > 0 && this.props.userBookings[0] !== null) {
+        return this.props.userBookings.map((rent) => (
             <tr>
                 <td>{rent.name}</td>
                 <td>{rent.year}</td>
@@ -36,7 +36,7 @@ class RentedCars extends Component {
 }
 
 RentedCars.propTypes = {
-  rentedCars: PropTypes.array.isRequired,
+  userBookings: PropTypes.array.isRequired,
 };
 
 export default RentedCars;
