@@ -38,8 +38,8 @@ class AddCarForm extends Component {
         <Form.Group>
             <Form.Label>Menjalnik</Form.Label>
             <Form.Control as="select" name="gear" required>
-                <option>avtomatski menjalnik</option>
-                <option>ročni menjalnik</option>
+                <option>avtomatski</option>
+                <option>ročni</option>
             </Form.Control>
         </Form.Group>
         <Form.Group>
