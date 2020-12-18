@@ -79,6 +79,7 @@ hr {
 }
 
 .card {
+  min-width: 120px;
   color: #ccf1d2;
   background: rgb(29,90,113);
   background: linear-gradient(321deg, rgba(29,90,113,1) 12%, rgba(87,126,104,1) 65%);
