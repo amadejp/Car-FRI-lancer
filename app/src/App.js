@@ -35,7 +35,7 @@ class App extends Component {
     cars: [null],
     users: [null],
     ownedCars: [null],
-    rentedCars: [null],
+    userBookings: [null],
     endRent_car: null,
   };
 
@@ -73,8 +73,8 @@ class App extends Component {
     }
 
     await this.getRentsByUser();
-    // this.setState({rentedCars: user_rentedCars});
-    console.log("init", this.state.rentedCars);
+    // this.setState({userBookings: user_userBookings});
+    console.log("init", this.state.userBookings);
 
     axios.get("/cars").then((res) => this.setState({ cars: res.data }));
 
@@ -86,68 +86,69 @@ class App extends Component {
 
   componentDidUpdate() {
     //console.log(this.getRentsByUser());
-    console.log("bookings", this.state.bookings);
+    console.log("bookings", this.state.userBookings);
     //console.log(this.state.bookings);
     // console.log(this.getCarsById([localStorage.getItem("reservation")]));
   }
 
   async handleAdd(event) {
     try {
-        event.preventDefault();
-        Geocode.setApiKey("YourGoogleMapsAPI");
-        Geocode.setRegion("SI");
+      event.preventDefault();
+      Geocode.setApiKey("YourGoogleMapsAPI");
+      Geocode.setRegion("SI");
 
-        const form = event.target;
-        const name = form.name.value.toString();
-        const type = form.type.value.toString();
-        const power = parseInt(form.power.value);
-        const acc = parseFloat(form.acceleration.value);
-        const gear = form.gear.value.toString();
-        const drive = form.drive.value.toString();
-        const year = parseInt(form.year.value);
-        const location = form.location.value.toString();
-        const price = parseInt(form.price.value);
-        const owner = this.state.accounts[0];
-        var pic = name.toLowerCase();
-        pic = pic.replace(/\s+/g, '');
-        pic = "/images/" + pic + ".png";
+      const form = event.target;
+      const name = form.name.value.toString();
+      const type = form.type.value.toString();
+      const power = parseInt(form.power.value);
+      const acc = parseFloat(form.acceleration.value);
+      const gear = form.gear.value.toString();
+      const drive = form.drive.value.toString();
+      const year = parseInt(form.year.value);
+      const location = form.location.value.toString();
+      const price = parseInt(form.price.value);
+      const owner = this.state.accounts[0];
+      var pic = name.toLowerCase();
+      pic = pic.replace(/\s+/g, "");
+      pic = "/images/" + pic + ".png";
 
-        Geocode.fromAddress(location).then(
-            response => {
-                const { lat, lng } = response.results[0].geometry.location;
-                //console.log(lat, lng);
-                axios
-                    .post("/cars", {
-                        name: name,
-                        power: power,
-                        acc: acc,
-                        drive: drive,
-                        trans: gear,
-                        year: year,
-                        type: type,
-                        owner: owner,
-                        price: price,
-                        pic: pic,
-                        lat: lat,
-                        lng: lng,
-                        available: true
-                    })
-                    .then((res) => {
-                        MySwal.fire(
-                            "Uspešna registracija\n" + name,
-                            "Na voljo: true",
-                            "success"
-                        ).then(() => {
-                            window.location = "/cars";
-                        });
-                    });
-            },
-            error => {
-                console.log(error);
-            }
-        );
+      Geocode.fromAddress(location).then(
+        (response) => {
+          const { lat, lng } = response.results[0].geometry.location;
+          //console.log(lat, lng);
+          axios
+            .post("/cars", {
+              name: name,
+              power: power,
+              acc: acc,
+              drive: drive,
+              trans: gear,
+              year: year,
+              type: type,
+              owner: owner,
+              price: price,
+              pic: pic,
+              location: location,
+              lat: lat,
+              lng: lng,
+              available: "true",
+            })
+            .then((res) => {
+              MySwal.fire(
+                "Uspešna registracija\n" + name,
+                "Na voljo: true",
+                "success"
+              ).then(() => {
+                window.location = "/cars";
+              });
+            });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
   }
 
@@ -214,11 +215,27 @@ class App extends Component {
   }
 
   async onCloseBooking(event) {
-    console.log("state car rented: ", this.state.endRent_car);
-    console.log(event.target);
-    const form = event.target;
-    const carId = form.endRent.value;
-    console.log(carId);
+    event.preventDefault();
+
+    const id = event.target.endRent.value;
+
+    await axios
+      .put("/cars/" + id, {
+        available: "true",
+      })
+      .then((r) => console.log(r.status));
+  }
+
+  async onReturnCar(event) {
+    event.preventDefault();
+
+    const id = event.target.returnCar.value;
+
+    await axios
+      .put("/cars/" + id, {
+        available: "pending",
+      })
+      .then((r) => console.log(r.status));
   }
 
   async onChangePrice(event) {
@@ -287,12 +304,13 @@ class App extends Component {
     response.forEach((booking) => {
       if (booking._user === this.state.accounts[0]) {
         rents.push(booking);
+
       } else {
         console.log("Nisi si izposodil še nobenega avtomobila.");
       }
     });
 
-    this.setState({ rentedCars: rents });
+    this.setState({ userBookings: rents });
   }
 
   changeCar_endRent = (id) => {
@@ -352,49 +370,53 @@ class App extends Component {
               render={(props) => (
                 <div className="container">
                   {" "}
-                  <div className="row main">
-                    <div className="col-12 main">
-                      <h3>Moji avtomobili</h3>
+                  <form
+                    style={{ width: "100%" }}
+                    id="endRent_form"
+                    onSubmit={this.onCloseBooking.bind(this)}
+                  >
+                    <div className="row main">
+                      <div className="col-12 main">
+                        <h1>Moji avtomobili</h1>
+                      </div>
+                      <Table striped bordered hover>
+                        <thead>
+                          <tr>
+                            <th>Ime</th>
+                            <th>Leto</th>
+                            <th>Lokacija</th>
+                            <th>Cena</th>
+                            <th>Na voljo</th>
+                            <th>Končaj izposojo</th>
+                          </tr>
+                        </thead>{" "}
+                        <tbody>
+                          <MyCars ownedCars={this.state.ownedCars} />
+                        </tbody>
+                      </Table>
                     </div>
-                    <Table striped bordered hover>
-                      <thead>
-                        <tr>
-                          <th>Ime</th>
-                          <th>Leto</th>
-                          <th>Lokacija</th>
-                          <th>Cena</th>
-                          <th>Na voljo</th>
-                          <th>Končaj izposojo</th>
-                        </tr>
-                      </thead>{" "}
-                      <tbody>
-                        <MyCars
-                          ownedCars={this.state.ownedCars}
-                          onSubmit={this.onCloseBooking}
-                        />
-                      </tbody>
-                    </Table>
-                  </div>
+
+                    <div style={{ float: "right" }}>
+                      <OverlayTrigger
+                        key="bottom"
+                        placement="bottom"
+                        overlay={
+                          <Tooltip id={`tooltip-bottom`}>
+                            POZOR! S potrditvijo boste zaključili izposojo in s
+                            tem zagotavljate, da je avto vrnjen in je z njim vse
+                            v redu.
+                          </Tooltip>
+                        }
+                      >
+                        <button type="submit" className="btn btn-secondary">
+                          Potrdi
+                        </button>
+                      </OverlayTrigger>
+                    </div>
+                  </form>
                   <a href="/add-form">
                     <button className="btn btn-success">Dodaj avto</button>
                   </a>
-                  <div style={{ float: "right" }}>
-                    <OverlayTrigger
-                      key="bottom"
-                      placement="bottom"
-                      overlay={
-                        <Tooltip id={`tooltip-bottom`}>
-                          POZOR! S potrditvijo boste zaključili izposojo in s
-                          tem zagotavljate, da je avto vrnjen in je z njim vse v
-                          redu.
-                        </Tooltip>
-                      }
-                    >
-                      <button type="submit" className="btn btn-secondary">
-                        Potrdi
-                      </button>
-                    </OverlayTrigger>
-                  </div>
                 </div>
               )}
             />
@@ -402,6 +424,12 @@ class App extends Component {
               path="/rents"
               render={(props) => (
                 <div className="container">
+                  {" "}
+                  <form
+                    style={{ width: "100%" }}
+                    id="endRent_form"
+                    onSubmit={this.onReturnCar.bind(this)}
+                  >
                   <div className="row main">
                     <div className="col-12 main">
                       <h1>Rented Cars</h1>
@@ -410,31 +438,51 @@ class App extends Component {
                       <thead>
                         <tr>
                           <th>Ime</th>
-                          <th>Leto</th>
-                          <th>Lokacija</th>
-                          <th>Cena</th>
-                          <th>Izposojen?</th>
+                          <th>Začetek bookinga</th>
+                          <th>Konec bookinga </th>
+                          <th>Stanje izposoje</th>
+                          <th>Vrni avto</th>
                         </tr>
-                      </thead>
+                      </thead>{" "}
                       <tbody>
-                        <RentedCars rentedCars={this.state.rentedCars} />
+                        <RentedCars
+                        rentedCars={this.state.userBookings}
+                        cars={this.state.cars}
+                        />
                       </tbody>
                     </Table>
                   </div>
+
+                  <div style={{ float: "right" }}>
+                      <OverlayTrigger
+                        key="bottom"
+                        placement="bottom"
+                        overlay={
+                          <Tooltip id={`tooltip-bottom`}>
+                            POZOR! S potrditvijo boste avto vrnili lastniku.
+                            S tem potrjujete da ste avto vrnili pravočasno
+                            in da je z njim vse v redu.
+                          </Tooltip>
+                        }
+                      >
+                        <button type="submit" className="btn btn-secondary">
+                          Potrdi
+                        </button>
+                      </OverlayTrigger>
+                    </div>
+                  </form>
                 </div>
               )}
             />
-            <Route 
+            <Route
               path="/add-form"
               render={(props) => (
-                  <div className="container">
-                    <div>
-                        <h1>Dodaj nov avto</h1>
-                    </div>
-                    <AddCarForm
-                    onSubmit={this.handleAdd.bind(this)}
-                    />
+                <div className="container">
+                  <div>
+                    <h1>Dodaj nov avto</h1>
                   </div>
+                  <AddCarForm onSubmit={this.handleAdd.bind(this)} />
+                </div>
               )}
             />
             <Route
