@@ -220,10 +220,22 @@ class App extends Component {
 
     await axios
       .put("/cars/" + id, {
-        available: true,
+        available: "true",
       })
       .then((r) => console.log(r.status));
       
+  }
+
+  async onReturnCar(event) {
+    event.preventDefault();
+
+    const id = event.target.returnCar.value;
+
+    await axios
+      .put("/cars/" + id, {
+        available: "pending",
+      })
+      .then((r) => console.log(r.status));
   }
 
   async onChangePrice(event) {
@@ -379,9 +391,6 @@ class App extends Component {
                       </Table>
                     </div>
 
-                    <a href="/add-form">
-                      <button className="btn btn-success">Dodaj avto</button>
-                    </a>
                     <div style={{ float: "right" }}>
                       <OverlayTrigger
                         key="bottom"
@@ -400,6 +409,9 @@ class App extends Component {
                       </OverlayTrigger>
                     </div>
                   </form>
+                  <a href="/add-form">
+                    <button className="btn btn-success">Dodaj avto</button>
+                  </a>
                 </div>
               )}
             />
@@ -407,6 +419,12 @@ class App extends Component {
               path="/rents"
               render={(props) => (
                 <div className="container">
+                  {" "}
+                  <form
+                    style={{ width: "100%" }}
+                    id="endRent_form"
+                    onSubmit={this.onReturnCar.bind(this)}
+                  >
                   <div className="row main">
                     <div className="col-12 main">
                       <h1>Rented Cars</h1>
@@ -415,17 +433,39 @@ class App extends Component {
                       <thead>
                         <tr>
                           <th>Ime</th>
-                          <th>Leto</th>
-                          <th>Lokacija</th>
-                          <th>Cena</th>
-                          <th>Izposojen?</th>
+                          <th>Začetek bookinga</th>
+                          <th>Konec bookinga </th>
+                          <th>Stanje izposoje</th>
+                          <th>Vrni avto</th>
                         </tr>
-                      </thead>
+                      </thead>{" "}
                       <tbody>
-                        <RentedCars rentedCars={this.state.rentedCars} />
+                        <RentedCars 
+                        rentedCars={this.state.rentedCars}
+                        cars={this.state.cars} 
+                        />
                       </tbody>
                     </Table>
                   </div>
+
+                  <div style={{ float: "right" }}>
+                      <OverlayTrigger
+                        key="bottom"
+                        placement="bottom"
+                        overlay={
+                          <Tooltip id={`tooltip-bottom`}>
+                            POZOR! S potrditvijo boste avto vrnili lastniku.
+                            S tem potrjujete da ste avto vrnili pravočasno
+                            in da je z njim vse v redu.
+                          </Tooltip>
+                        }
+                      >
+                        <button type="submit" className="btn btn-secondary">
+                          Potrdi
+                        </button>
+                      </OverlayTrigger>
+                    </div>
+                  </form>
                 </div>
               )}
             />
