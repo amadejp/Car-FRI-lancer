@@ -4,6 +4,21 @@
     font-weight: bold;
 }
 
+.icon {
+    filter: invert(90%) sepia(33%) saturate(190%) hue-rotate(68deg) brightness(99%) contrast(91%);
+}
+
+.container-border {
+    border: 3px solid #ccf1d2;
+    border-radius: .50rem;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.card-img-top {
+    border-radius: .50rem;
+}
+
 .cena-napis {
     font-size: x-large;
 }

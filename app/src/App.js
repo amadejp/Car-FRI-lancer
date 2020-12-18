@@ -308,7 +308,11 @@ class App extends Component {
         "question"
       );
       */
-      return <div>Nalagam Web3, račune, pogodbe...</div>;
+      return (
+          <div className="d-flex justify-content-center">
+              <div className="loading"><h2>Nalagam Web3, račune, pogodbe...</h2></div>
+          </div>
+      );
     } else {
       MySwal.close();
     }
@@ -350,7 +354,7 @@ class App extends Component {
                   {" "}
                   <div className="row main">
                     <div className="col-12 main">
-                      <h1>Moji avtomobili</h1>
+                      <h3>Moji avtomobili</h3>
                     </div>
                     <Table striped bordered hover>
                       <thead>

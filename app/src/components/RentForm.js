@@ -56,6 +56,7 @@ class RentForm extends Component {
                 <div className="row">
                   <div className="col">
                     <img
+                      className="icon"
                       src="icons/motor.png"
                       alt="motor icon"
                       width="20px"
@@ -68,6 +69,7 @@ class RentForm extends Component {
                 <div className="row">
                   <div className="col">
                     <img
+                        className="icon"
                       src="icons/acc.png"
                       alt="acc icon"
                       width="20px"
@@ -80,6 +82,7 @@ class RentForm extends Component {
                 <div className="row">
                   <div className="col">
                     <img
+                      className="icon"
                       src="icons/trans.png"
                       alt="trans icon"
                       width="18px"
@@ -92,6 +95,7 @@ class RentForm extends Component {
                 <div className="row">
                   <div className="col">
                     <img
+                      className="icon"
                       src="icons/wheel.png"
                       alt="wheel icon"
                       width="20px"
@@ -104,6 +108,7 @@ class RentForm extends Component {
                 <div className="row">
                   <div className="col">
                     <img
+                      className="icon"
                       src="icons/calendar.png"
                       alt="calendar icon"
                       width="20px"
@@ -116,6 +121,7 @@ class RentForm extends Component {
                 <div className="row">
                   <div className="col">
                     <img
+                      className="icon"
                       src="icons/location.png"
                       alt="location icon"
                       width="20px"
@@ -130,6 +136,7 @@ class RentForm extends Component {
                 <div className="row">
                   <div className="col cena-napis">
                     <img
+                      className="icon"
                       src="icons/tag.png"
                       alt="price tag icon"
                       width="30px"
@@ -144,7 +151,7 @@ class RentForm extends Component {
             <div className="row pt-4">
               <div className="col-sm">
                 <div
-                  className="container border"
+                  className="container-border"
                   style={{ paddingTop: "10px", paddingBottom: "10px" }}
                 >
                   <h5>Izpolnite podrobnosti izposoje</h5>
