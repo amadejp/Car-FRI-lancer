@@ -72,6 +72,10 @@ class App extends Component {
       console.error(error);
     }
 
+    const response = await this.state.contractBooking.methods
+      .getBookings()
+      .call();
+    this.setState({ bookings: response });
     await this.getRentsByUser();
     // this.setState({userBookings: user_userBookings});
     console.log("init", this.state.userBookings);
@@ -84,7 +88,16 @@ class App extends Component {
       .then((res) => this.setState({ ownedCars: res.data }));
   };
 
-  async componentDidUpdate(prevProps, prevState) {}
+  async componentDidUpdate(prevProps, prevState) {
+    if (prevProps !== this.props) {
+      console.log(this.state.bookings);
+      const response = await this.state.contractBooking.methods
+        .getBookings()
+        .call();
+      this.setState({ bookings: response });
+      await this.getRentsByUser();
+    }
+  }
 
   async handleAdd(event) {
     try {
@@ -200,13 +213,26 @@ class App extends Component {
             }
           }
         );
-        const response = await contractBooking.methods.getBookings().call();
-        this.setState({ bookings: response });
-        await this.getRentsByUser();
       }
+      var car_json = {};
+      // update database
+      await axios.get("/cars/" + carId).then((res) => {
+        car_json = res.data;
+      });
+      car_json.available = "false";
+      await axios
+        .put("/cars/" + carId, car_json)
+        .then((r) => console.log(r.status));
+
     } catch (err) {
       console.log(err);
     }
+
+    const response = await this.state.contractBooking.methods
+      .getBookings()
+      .call();
+    this.setState({ bookings: response });
+    await this.getRentsByUser();
   }
 
   async onCloseBooking(event) {

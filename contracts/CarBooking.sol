@@ -32,8 +32,8 @@ contract CarBooking{
         uint _rentCost
         ) 
         public {
-        incrementCount();
         bookings[bookingCount] = Booking(bookingCount, _carId, _carOwner, _user, _rentStart, _rentEnd, _rentCost, true);
+        incrementCount();
     }
     
     function incrementCount() internal {

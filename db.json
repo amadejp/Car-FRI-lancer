@@ -44,11 +44,11 @@
       "year": 2018,
       "type": "SUV",
       "owner": "0xf2b32834FbE1e65BE6c397B11f5cD7443631db55",
-      "location": "Ljubljana",
+      "location": "Tivoli Ljubljana",
       "price": 560,
       "pic": "/images/bentleybentayga.png",
-      "lat": 46.054940098220264,
-      "lng": 14.494807740635562,
+      "lat": 46.060159,
+      "lng": 14.497099,
       "available": "pending"
     },
     {
@@ -83,7 +83,7 @@
       "pic": "/images/vwegolf.png",
       "lat": 46.2447408229277,
       "lng": 14.357730259988175,
-      "available": "true"
+      "available": "pending"
     },
     {
       "name": "Audi A6",
@@ -130,7 +130,7 @@
       "pic": "/images/fordranger.png",
       "lat": 46.0706937,
       "lng": 14.4876755,
-      "available": "true",
+      "available": "pending",
       "id": 9
     },
     {
@@ -164,6 +164,23 @@
       "lng": 14.3555417,
       "available": "true",
       "id": 11
+    },
+    {
+      "name": "BMW 315",
+      "power": 40,
+      "acc": 20.3,
+      "drive": "FWD",
+      "trans": "ročni",
+      "year": 1940,
+      "type": "Kabriolet",
+      "owner": "0xB8cBD5Cc98eBD7a875808D742379E03993bA8038",
+      "price": 60,
+      "pic": "/images/bmw315.png",
+      "location": "Srednje Gameljne",
+      "lat": 46.12687709999999,
+      "lng": 14.5004785,
+      "available": "true",
+      "id": 12
     }
   ]
 }
