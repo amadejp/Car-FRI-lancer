@@ -89,14 +89,7 @@ class App extends Component {
   };
 
   async componentDidUpdate(prevProps, prevState) {
-    if (prevProps !== this.props) {
-      console.log(this.state.bookings);
-      const response = await this.state.contractBooking.methods
-        .getBookings()
-        .call();
-      this.setState({ bookings: response });
-      await this.getRentsByUser();
-    }
+    console.log(this.state.bookings);
   }
 
   async handleAdd(event) {
@@ -180,50 +173,62 @@ class App extends Component {
       var price_eur = lor * car.price;
       var price_eth = await this.convert(price_eur);
 
-      // sign the contract
-      await contractBooking.methods
-        .confirmBooking(carId, owner, user, startDate, endDate, price_eur)
-        .send({ from: accounts[0] });
+      if (owner === user) {
+        MySwal.fire({
+          icon: "error",
+          title: "Ups...",
+          text: "Ne moraš si izposoditi lastnega avta!"
+        }).then(() => {
+          window.location = "/";
+        });
+      } else {
+        // sign the contract
+        await contractBooking.methods
+          .confirmBooking(carId, owner, user, startDate, endDate, price_eur)
+          .send({ from: accounts[0] });
 
-      // send eth
-      const web3 = this.state.web3;
-      if (web3) {
-        web3.eth.sendTransaction(
-          {
-            from: user,
-            to: owner,
-            value: web3.utils.toWei(price_eth.toString(), "ether"),
-            gasLimit: 21000,
-            gasPrice: 20000000000,
-          },
-          async function (err, transactionHash) {
-            if (!err) {
-              var receipt = await web3.eth.getTransactionReceipt(
-                transactionHash
-              );
-              MySwal.fire(
-                "Avto lahko prevzameš\n" +
-                  startDate +
-                  " ob " +
-                  time +
-                  "\n na lokaciji: ",
-                "transaction hash: " + transactionHash.toString(),
-                "success"
-              );
+        // send eth
+        const web3 = this.state.web3;
+        if (web3) {
+          web3.eth.sendTransaction(
+            {
+              from: user,
+              to: owner,
+              value: web3.utils.toWei(price_eth.toString(), "ether"),
+              gasLimit: 21000,
+              gasPrice: 20000000000,
+            },
+            async function (err, transactionHash) {
+              if (!err) {
+                var receipt = await web3.eth.getTransactionReceipt(
+                  transactionHash
+                );
+                MySwal.fire(
+                  "Avto lahko prevzameš\n" +
+                    startDate +
+                    " ob " +
+                    time +
+                    "\n na lokaciji: " +
+                    car.location,
+                  "transaction hash: " + transactionHash.toString(),
+                  "success"
+                ).then(() => {
+                  window.location = "/rents";
+                });
+              }
             }
-          }
-        );
+          );
+        }
+        var car_json = {};
+        // update database
+        await axios.get("/cars/" + carId).then((res) => {
+          car_json = res.data;
+        });
+        car_json.available = "false";
+        await axios
+          .put("/cars/" + carId, car_json)
+          .then((r) => console.log(r.status));
       }
-      var car_json = {};
-      // update database
-      await axios.get("/cars/" + carId).then((res) => {
-        car_json = res.data;
-      });
-      car_json.available = "false";
-      await axios
-        .put("/cars/" + carId, car_json)
-        .then((r) => console.log(r.status));
-
     } catch (err) {
       console.log(err);
     }
@@ -249,8 +254,9 @@ class App extends Component {
     await axios.put("/cars/" + id, car_json).then((r) => console.log(r.status));
 
     // close booking with smart contract
-    const contractBooking = this.state.contractBooking;
-    await contractBooking.methods.closeBooking(id);
+    await this.state.contractBooking.methods
+      .closeBooking(id)
+      .send({ from: this.state.accounts[0] });
 
     window.location = "/cars";
   }
@@ -271,9 +277,11 @@ class App extends Component {
   }
 
   async onChangePrice(event) {
+    /*
     const form = event.target;
     const carId = form.id.value;
     const newPrice = form.price.value;
+    */
   }
 
   setBooking(name) {
@@ -465,7 +473,7 @@ class App extends Component {
                   >
                     <div className="row main">
                       <div className="col-12 main">
-                        <h1>Rented Cars</h1>
+                        <h1>Arhiv izposojenih avtomobilov</h1>
                       </div>
                       <Table striped bordered hover>
                         <thead>
