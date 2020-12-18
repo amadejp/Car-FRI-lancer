@@ -35,7 +35,7 @@ class RentedCars extends Component {
                             name: car.name,
                             rentStart: rentedCar._rentStart,
                             rentEnd: rentedCar._rentEnd,
-                            available: available
+                            available: car.available
                         }
                         rCars.push(rCar);
                     }

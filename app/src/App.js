@@ -84,12 +84,7 @@ class App extends Component {
       .then((res) => this.setState({ ownedCars: res.data }));
   };
 
-  componentDidUpdate() {
-    //console.log(this.getRentsByUser());
-    console.log("bookings", this.state.userBookings);
-    //console.log(this.state.bookings);
-    // console.log(this.getCarsById([localStorage.getItem("reservation")]));
-  }
+  async componentDidUpdate(prevProps, prevState) {}
 
   async handleAdd(event) {
     try {
@@ -176,9 +171,6 @@ class App extends Component {
       await contractBooking.methods
         .confirmBooking(carId, owner, user, startDate, endDate, price_eur)
         .send({ from: accounts[0] });
-      const response = await contractBooking.methods.getBookings().call();
-      this.setState({ bookings: response });
-      await this.getRentsByUser();
 
       // send eth
       const web3 = this.state.web3;
@@ -208,6 +200,9 @@ class App extends Component {
             }
           }
         );
+        const response = await contractBooking.methods.getBookings().call();
+        this.setState({ bookings: response });
+        await this.getRentsByUser();
       }
     } catch (err) {
       console.log(err);
@@ -217,25 +212,36 @@ class App extends Component {
   async onCloseBooking(event) {
     event.preventDefault();
 
+    var car_json = {};
     const id = event.target.endRent.value;
 
-    await axios
-      .put("/cars/" + id, {
-        available: "true",
-      })
-      .then((r) => console.log(r.status));
+    // update database
+    await axios.get("/cars/" + id).then((res) => {
+      car_json = res.data;
+    });
+    car_json.available = "true";
+    await axios.put("/cars/" + id, car_json).then((r) => console.log(r.status));
+
+    // close booking with smart contract
+    const contractBooking = this.state.contractBooking;
+    await contractBooking.methods.closeBooking(id);
+
+    window.location = "/cars";
   }
 
   async onReturnCar(event) {
     event.preventDefault();
 
+    var car_json = {};
     const id = event.target.returnCar.value;
 
-    await axios
-      .put("/cars/" + id, {
-        available: "pending",
-      })
-      .then((r) => console.log(r.status));
+    await axios.get("/cars/" + id).then((res) => {
+      car_json = res.data;
+    });
+    car_json.available = "pending";
+    await axios.put("/cars/" + id, car_json).then((r) => console.log(r.status));
+
+    window.location = "/rents";
   }
 
   async onChangePrice(event) {
@@ -304,9 +310,8 @@ class App extends Component {
     response.forEach((booking) => {
       if (booking._user === this.state.accounts[0]) {
         rents.push(booking);
-
       } else {
-        console.log("Nisi si izposodil še nobenega avtomobila.");
+        //console.log("Nisi si izposodil še nobenega avtomobila.");
       }
     });
 
@@ -327,12 +332,14 @@ class App extends Component {
       );
       */
       return (
-          <div className="d-flex justify-content-center">
-              <div className="loading"><h2>Nalagam Web3, račune, pogodbe...</h2></div>
+        <div className="d-flex justify-content-center">
+          <div className="loading">
+            <h2>Nalagam Web3, račune, pogodbe...</h2>
           </div>
+        </div>
       );
     } else {
-      MySwal.close();
+      // MySwal.close();
     }
     return (
       <Router>
@@ -427,41 +434,41 @@ class App extends Component {
                   {" "}
                   <form
                     style={{ width: "100%" }}
-                    id="endRent_form"
+                    id="returnCar_form"
                     onSubmit={this.onReturnCar.bind(this)}
                   >
-                  <div className="row main">
-                    <div className="col-12 main">
-                      <h1>Rented Cars</h1>
+                    <div className="row main">
+                      <div className="col-12 main">
+                        <h1>Rented Cars</h1>
+                      </div>
+                      <Table striped bordered hover>
+                        <thead>
+                          <tr>
+                            <th>Ime</th>
+                            <th>Začetek bookinga</th>
+                            <th>Konec bookinga </th>
+                            <th>Stanje izposoje</th>
+                            <th>Vrni avto</th>
+                          </tr>
+                        </thead>{" "}
+                        <tbody>
+                          <RentedCars
+                            rentedCars={this.state.userBookings}
+                            cars={this.state.cars}
+                          />
+                        </tbody>
+                      </Table>
                     </div>
-                    <Table striped bordered hover>
-                      <thead>
-                        <tr>
-                          <th>Ime</th>
-                          <th>Začetek bookinga</th>
-                          <th>Konec bookinga </th>
-                          <th>Stanje izposoje</th>
-                          <th>Vrni avto</th>
-                        </tr>
-                      </thead>{" "}
-                      <tbody>
-                        <RentedCars
-                        rentedCars={this.state.userBookings}
-                        cars={this.state.cars}
-                        />
-                      </tbody>
-                    </Table>
-                  </div>
 
-                  <div style={{ float: "right" }}>
+                    <div style={{ float: "right" }}>
                       <OverlayTrigger
                         key="bottom"
                         placement="bottom"
                         overlay={
                           <Tooltip id={`tooltip-bottom`}>
-                            POZOR! S potrditvijo boste avto vrnili lastniku.
-                            S tem potrjujete da ste avto vrnili pravočasno
-                            in da je z njim vse v redu.
+                            POZOR! S potrditvijo boste avto vrnili lastniku. S
+                            tem potrjujete da ste avto vrnili pravočasno in da
+                            je z njim vse v redu.
                           </Tooltip>
                         }
                       >
