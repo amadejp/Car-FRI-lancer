@@ -54,8 +54,8 @@ class RentedCars extends Component {
     }
 
     componentDidUpdate(prevProps) {
+        console.log(prevProps, this.props);
         if (prevProps !== this.props) {
-            console.log("yeah baby, yeah")
             this.updateState();
         }
     }

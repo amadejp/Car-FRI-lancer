@@ -442,7 +442,7 @@ class App extends Component {
                       </thead>{" "}
                       <tbody>
                         <RentedCars 
-                        rentedCars={this.state.rentedCars}
+                        rentedCars={this.state.userBookings}
                         cars={this.state.cars} 
                         />
                       </tbody>
