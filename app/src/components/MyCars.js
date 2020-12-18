@@ -18,7 +18,7 @@ class MyCars extends Component {
     } else if (available === "pending") {
       return (
         <td>
-          <FontAwesomeIcon icon={faQuestion} />
+          Čakanje na potrditev...
         </td>
       );
     } else {

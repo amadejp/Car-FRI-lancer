@@ -22,14 +22,14 @@ export class CarMap extends Component {
     }
 
   render() {
-      if (this.props.car.name !== null) {
+      if (this.props.car.name !== null && this.props.available === "true") {
         const {id, name, price} = this.props.car;
         return (
         <div>
             <div 
             className="card"
             name={id}
-            style={{ width: "fit-content", margin: "2px", display: "none" }}
+            style={{ width: "fit-content", margin: "2px", display: "none", transform: "translate(-50%, -50%)" }}
             onClick={() => this.pokaziSkrij(id)}>
                 <div className="card-body">
                     <h5 className="card-title">
@@ -49,7 +49,9 @@ export class CarMap extends Component {
                 <FontAwesomeIcon icon={faMapMarkerAlt} className="fa-3x" style={{ color: "DarkRed", transform: "translate(-50%, -100%)" }}/>
             </div>
         </div>
-        )}
+        )} else {
+            return null;
+        }
   }
 }
 

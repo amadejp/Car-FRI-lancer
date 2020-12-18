@@ -28,6 +28,7 @@ class Zemljevid extends Component {
                             car={car}
                             lat={car.lat}
                             lng={car.lng}
+                            available={car.available}
                         />
                     ))
                     }
