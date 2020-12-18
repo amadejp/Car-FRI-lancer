@@ -120,7 +120,7 @@ class RentedCars extends Component {
 }
 
 RentedCars.propTypes = {
-  rentedCars: PropTypes.array.isRequired,
+  userBookings: PropTypes.array.isRequired,
 };
 
 export default RentedCars;
