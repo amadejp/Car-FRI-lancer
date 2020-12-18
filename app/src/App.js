@@ -221,7 +221,19 @@ class App extends Component {
 
     await axios
       .put("/cars/" + id, {
-        available: true,
+        available: "true",
+      })
+      .then((r) => console.log(r.status));
+  }
+
+  async onReturnCar(event) {
+    event.preventDefault();
+
+    const id = event.target.returnCar.value;
+
+    await axios
+      .put("/cars/" + id, {
+        available: "pending",
       })
       .then((r) => console.log(r.status));
   }
@@ -314,7 +326,11 @@ class App extends Component {
         "question"
       );
       */
-      return <div>Nalagam Web3, račune, pogodbe...</div>;
+      return (
+          <div className="d-flex justify-content-center">
+              <div className="loading"><h2>Nalagam Web3, račune, pogodbe...</h2></div>
+          </div>
+      );
     } else {
       MySwal.close();
     }
@@ -408,6 +424,12 @@ class App extends Component {
               path="/rents"
               render={(props) => (
                 <div className="container">
+                  {" "}
+                  <form
+                    style={{ width: "100%" }}
+                    id="endRent_form"
+                    onSubmit={this.onReturnCar.bind(this)}
+                  >
                   <div className="row main">
                     <div className="col-12 main">
                       <h1>Rented Cars</h1>
@@ -416,17 +438,39 @@ class App extends Component {
                       <thead>
                         <tr>
                           <th>Ime</th>
-                          <th>Leto</th>
-                          <th>Lokacija</th>
-                          <th>Cena</th>
-                          <th>Izposojen?</th>
+                          <th>Začetek bookinga</th>
+                          <th>Konec bookinga </th>
+                          <th>Stanje izposoje</th>
+                          <th>Vrni avto</th>
                         </tr>
-                      </thead>
+                      </thead>{" "}
                       <tbody>
-                        <RentedCars userBookings={this.state.userBookings} />
+                        <RentedCars
+                        rentedCars={this.state.userBookings}
+                        cars={this.state.cars}
+                        />
                       </tbody>
                     </Table>
                   </div>
+
+                  <div style={{ float: "right" }}>
+                      <OverlayTrigger
+                        key="bottom"
+                        placement="bottom"
+                        overlay={
+                          <Tooltip id={`tooltip-bottom`}>
+                            POZOR! S potrditvijo boste avto vrnili lastniku.
+                            S tem potrjujete da ste avto vrnili pravočasno
+                            in da je z njim vse v redu.
+                          </Tooltip>
+                        }
+                      >
+                        <button type="submit" className="btn btn-secondary">
+                          Potrdi
+                        </button>
+                      </OverlayTrigger>
+                    </div>
+                  </form>
                 </div>
               )}
             />

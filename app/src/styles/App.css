@@ -3,6 +3,102 @@
   margin: 0;
 }
 
+html {
+  height: 100%;
+  font-family: Consolas, Arial, monospace;
+}
+
+body {
+  color: #b4d6b1;
+  height: 100%;
+  background: rgb(54,43,105);
+  background: linear-gradient(189deg, rgba(54,43,105,1) 0%, rgb(41, 75, 139) 33%, rgba(24,75,108,1) 97%);
+  position: relative;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+h1, h2, h3 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.loading {
+  margin-top: 20%;
+}
+
+.badge-secondary {
+  color: #294B8B;
+  background-color: #9edbd9;
+}
+
+.btn {
+  border: 3px solid #9edbd9;
+  color: #9edbd9;
+  background-color: transparent;
+  padding: .33rem .60rem;
+}
+
+input {
+  margin-bottom: 2px;
+  border: 3px solid #9edbd9;
+  color: #9edbd9;
+  background-color: transparent;
+  padding: .20rem .30rem;
+  border-radius: .25rem;
+}
+
+.btn-primary:hover, input:hover {
+  color: #c5efef;
+  background-color: transparent;
+  border-color: #c5efef;
+}
+
+.btn-success:hover {
+  color: #8cee75;
+  background-color: transparent;
+  border-color: #8cee75;
+}
+
+.btn-secondary:hover {
+  color: #8fa7f1;
+  background-color: transparent;
+  border-color: #8fa7f1;
+}
+
+hr {
+  border: 2px solid #9edbd9;
+}
+
+.table-bordered th, .table-bordered td, .table-bordered thead th {
+  border: 2px solid #9edbd9;
+}
+
+.table-hover tbody tr:hover {
+  color: #66c7d0;
+}
+
+.card {
+  min-width: 120px;
+  color: #ccf1d2;
+  background: rgb(29,90,113);
+  background: linear-gradient(321deg, rgba(29,90,113,1) 12%, rgba(87,126,104,1) 65%);
+  background-attachment: fixed;
+  border: 3px solid #ccf1d2;
+  border-radius: .50rem;
+}
+
+.card-img-top {
+  border-top-left-radius: .50rem;
+  border-top-right-radius: .50rem;
+}
+
+.table {
+  color: #96caae;
+  border: 3px solid #b4d6b1;
+  border-radius: .50rem;
+}
+
 .main {
   display: flex;
   justify-content: center;

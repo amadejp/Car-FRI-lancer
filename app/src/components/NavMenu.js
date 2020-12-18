@@ -6,7 +6,16 @@ import "../styles/NavMenu.css";
 function NavMenu() {
   return (
     <Navbar bg="dark" variant="dark" expand="md">
-      <Navbar.Brand href="/">Car FRI-lancer</Navbar.Brand>
+      <Navbar.Brand href="/">
+          <span className="d-none d-md-inline">Car </span>
+          <img
+              src="logo.png"
+              alt="FRI"
+              width="60px"
+              style={{ marginRight: "1px"}}>
+          </img>
+          <span className="d-none d-md-inline">-lancer</span>
+      </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
