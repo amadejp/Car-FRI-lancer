@@ -10,11 +10,11 @@
       "year": 2019,
       "type": "limuzina",
       "owner": "0xE6FeD2aC60647aF1249d19761957859F10c7a65d",
-      "location": "Ljubljana",
+      "location": "Žabja ulica 17",
       "price": 90,
       "pic": "/images/audia4.png",
-      "lat": 46.05029715515417,
-      "lng": 14.468899040635458,
+      "lat": 46.0650418148293,
+      "lng": 14.469873071796545,
       "available": "true"
     },
     {
@@ -27,7 +27,7 @@
       "year": 2012,
       "type": "SUV",
       "owner": "0xB8cBD5Cc98eBD7a875808D742379E03993bA8038",
-      "location": "Ljubljana",
+      "location": "UL FE, Ljubljana",
       "price": 120,
       "pic": "/images/bmwx6.png",
       "lat": 46.04475492248595,
@@ -43,13 +43,13 @@
       "trans": "avtomatski",
       "year": 2018,
       "type": "SUV",
-      "owner": "0xf2b32834FbE1e65BE6c397B11f5cD7443631db55",
+      "owner": "0xaAf2C5b19492e89277F900f9Cd6D6F2Ca70056BD",
       "location": "Tivoli Ljubljana",
       "price": 560,
       "pic": "/images/bentleybentayga.png",
       "lat": 46.060159,
       "lng": 14.497099,
-      "available": "pending"
+      "available": "true"
     },
     {
       "id": 4,
@@ -61,7 +61,7 @@
       "year": 2018,
       "type": "kombilimuzina",
       "owner": "0x7d86148c1d1b53ACC536CD14C9227971E1995c91",
-      "location": "Kranj",
+      "location": "PU Kranj",
       "price": 95,
       "pic": "/images/vwgolf.png",
       "lat": 46.24472587890589,
@@ -83,7 +83,7 @@
       "pic": "/images/vwegolf.png",
       "lat": 46.2447408229277,
       "lng": 14.357730259988175,
-      "available": "pending"
+      "available": "true"
     },
     {
       "name": "Audi A6",
@@ -94,6 +94,7 @@
       "year": 2017,
       "type": "Karavan",
       "owner": "0xB8cBD5Cc98eBD7a875808D742379E03993bA8038",
+      "location": "Ljubljana",
       "price": 100,
       "pic": "/images/audia6.png",
       "lat": 46.0850058,
@@ -110,6 +111,7 @@
       "year": 2020,
       "type": "Karavan",
       "owner": "0x3b5435Dc6b5873A33f340aD4BD2958032f27c0eA",
+      "location": "Ljubljana",
       "price": 300,
       "pic": "/images/audiq8.png",
       "lat": 46.2428344,
@@ -126,11 +128,12 @@
       "year": 2019,
       "type": "Terenec",
       "owner": "0x3b5435Dc6b5873A33f340aD4BD2958032f27c0eA",
+      "location": "Šiška",
       "price": 85,
       "pic": "/images/fordranger.png",
       "lat": 46.0706937,
       "lng": 14.4876755,
-      "available": "pending",
+      "available": "true",
       "id": 9
     },
     {
@@ -142,6 +145,7 @@
       "year": 2019,
       "type": "Kombilimuzina",
       "owner": "0xB8cBD5Cc98eBD7a875808D742379E03993bA8038",
+      "location": "Šmartinska cesta, Ljubljana",
       "price": 40,
       "pic": "/images/renaultclio.png",
       "lat": 46.07048,
@@ -158,6 +162,7 @@
       "year": 2016,
       "type": "Limuzina",
       "owner": "0xB8cBD5Cc98eBD7a875808D742379E03993bA8038",
+      "location": "Slovenski trg, Kranj",
       "price": 140,
       "pic": "/images/teslamodels.png",
       "lat": 46.2428344,
