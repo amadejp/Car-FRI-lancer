@@ -33,7 +33,6 @@ class App extends Component {
     contractBooking: null,
     bookings: null,
     cars: [null],
-    users: [null],
     ownedCars: [null],
     userBookings: [null],
     endRent_car: null,
