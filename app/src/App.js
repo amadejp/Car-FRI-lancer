@@ -33,7 +33,6 @@ class App extends Component {
     contractBooking: null,
     bookings: null,
     cars: [null],
-    users: [null],
     ownedCars: [null],
     userBookings: [null],
     endRent_car: null,
@@ -72,6 +71,10 @@ class App extends Component {
       console.error(error);
     }
 
+    const response = await this.state.contractBooking.methods
+      .getBookings()
+      .call();
+    this.setState({ bookings: response });
     await this.getRentsByUser();
     // this.setState({userBookings: user_userBookings});
     console.log("init", this.state.userBookings);
@@ -84,11 +87,8 @@ class App extends Component {
       .then((res) => this.setState({ ownedCars: res.data }));
   };
 
-  componentDidUpdate() {
-    //console.log(this.getRentsByUser());
-    console.log("bookings", this.state.userBookings);
-    //console.log(this.state.bookings);
-    // console.log(this.getCarsById([localStorage.getItem("reservation")]));
+  async componentDidUpdate(prevProps, prevState) {
+    console.log(this.state.bookings);
   }
 
   async handleAdd(event) {
@@ -172,76 +172,115 @@ class App extends Component {
       var price_eur = lor * car.price;
       var price_eth = await this.convert(price_eur);
 
-      // sign the contract
-      await contractBooking.methods
-        .confirmBooking(carId, owner, user, startDate, endDate, price_eur)
-        .send({ from: accounts[0] });
-      const response = await contractBooking.methods.getBookings().call();
-      this.setState({ bookings: response });
-      await this.getRentsByUser();
+      if (owner === user) {
+        MySwal.fire({
+          icon: "error",
+          title: "Ups...",
+          text: "Ne moraš si izposoditi lastnega avta!"
+        }).then(() => {
+          window.location = "/";
+        });
+      } else {
+        // sign the contract
+        await contractBooking.methods
+          .confirmBooking(carId, owner, user, startDate, endDate, price_eur)
+          .send({ from: accounts[0] });
 
-      // send eth
-      const web3 = this.state.web3;
-      if (web3) {
-        web3.eth.sendTransaction(
-          {
-            from: user,
-            to: owner,
-            value: web3.utils.toWei(price_eth.toString(), "ether"),
-            gasLimit: 21000,
-            gasPrice: 20000000000,
-          },
-          async function (err, transactionHash) {
-            if (!err) {
-              var receipt = await web3.eth.getTransactionReceipt(
-                transactionHash
-              );
-              MySwal.fire(
-                "Avto lahko prevzameš\n" +
-                  startDate +
-                  " ob " +
-                  time +
-                  "\n na lokaciji: ",
-                "transaction hash: " + transactionHash.toString(),
-                "success"
-              );
+        // send eth
+        const web3 = this.state.web3;
+        if (web3) {
+          web3.eth.sendTransaction(
+            {
+              from: user,
+              to: owner,
+              value: web3.utils.toWei(price_eth.toString(), "ether"),
+              gasLimit: 21000,
+              gasPrice: 20000000000,
+            },
+            async function (err, transactionHash) {
+              if (!err) {
+                var receipt = await web3.eth.getTransactionReceipt(
+                  transactionHash
+                );
+                MySwal.fire(
+                  "Avto lahko prevzameš\n" +
+                    startDate +
+                    " ob " +
+                    time +
+                    "\n na lokaciji: " +
+                    car.location,
+                  "transaction hash: " + transactionHash.toString(),
+                  "success"
+                ).then(() => {
+                  window.location = "/rents";
+                });
+              }
             }
-          }
-        );
+          );
+        }
+        var car_json = {};
+        // update database
+        await axios.get("/cars/" + carId).then((res) => {
+          car_json = res.data;
+        });
+        car_json.available = "false";
+        await axios
+          .put("/cars/" + carId, car_json)
+          .then((r) => console.log(r.status));
       }
     } catch (err) {
       console.log(err);
     }
+
+    const response = await this.state.contractBooking.methods
+      .getBookings()
+      .call();
+    this.setState({ bookings: response });
+    await this.getRentsByUser();
   }
 
   async onCloseBooking(event) {
     event.preventDefault();
 
+    var car_json = {};
     const id = event.target.endRent.value;
 
-    await axios
-      .put("/cars/" + id, {
-        available: "true",
-      })
-      .then((r) => console.log(r.status));
+    // update database
+    await axios.get("/cars/" + id).then((res) => {
+      car_json = res.data;
+    });
+    car_json.available = "true";
+    await axios.put("/cars/" + id, car_json).then((r) => console.log(r.status));
+
+    // close booking with smart contract
+    await this.state.contractBooking.methods
+      .closeBooking(id)
+      .send({ from: this.state.accounts[0] });
+
+    window.location = "/cars";
   }
 
   async onReturnCar(event) {
     event.preventDefault();
 
+    var car_json = {};
     const id = event.target.returnCar.value;
 
-    await axios
-      .put("/cars/" + id, {
-        available: "pending",
-      })
-      .then((r) => console.log(r.status));
+    await axios.get("/cars/" + id).then((res) => {
+      car_json = res.data;
+    });
+    car_json.available = "pending";
+    await axios.put("/cars/" + id, car_json).then((r) => console.log(r.status));
+
+    window.location = "/rents";
   }
 
   async onChangePrice(event) {
+    /*
     const form = event.target;
     const carId = form.id.value;
     const newPrice = form.price.value;
+    */
   }
 
   setBooking(name) {
@@ -304,9 +343,8 @@ class App extends Component {
     response.forEach((booking) => {
       if (booking._user === this.state.accounts[0]) {
         rents.push(booking);
-
       } else {
-        console.log("Nisi si izposodil še nobenega avtomobila.");
+        //console.log("Nisi si izposodil še nobenega avtomobila.");
       }
     });
 
@@ -327,12 +365,14 @@ class App extends Component {
       );
       */
       return (
-          <div className="d-flex justify-content-center">
-              <div className="loading"><h2>Nalagam Web3, račune, pogodbe...</h2></div>
+        <div className="d-flex justify-content-center">
+          <div className="loading">
+            <h2>Nalagam Web3, račune, pogodbe...</h2>
           </div>
+        </div>
       );
     } else {
-      MySwal.close();
+      // MySwal.close();
     }
     return (
       <Router>
@@ -427,41 +467,41 @@ class App extends Component {
                   {" "}
                   <form
                     style={{ width: "100%" }}
-                    id="endRent_form"
+                    id="returnCar_form"
                     onSubmit={this.onReturnCar.bind(this)}
                   >
-                  <div className="row main">
-                    <div className="col-12 main">
-                      <h1>Rented Cars</h1>
+                    <div className="row main">
+                      <div className="col-12 main">
+                        <h1>Arhiv izposojenih avtomobilov</h1>
+                      </div>
+                      <Table striped bordered hover>
+                        <thead>
+                          <tr>
+                            <th>Ime</th>
+                            <th>Začetek bookinga</th>
+                            <th>Konec bookinga </th>
+                            <th>Stanje izposoje</th>
+                            <th>Vrni avto</th>
+                          </tr>
+                        </thead>{" "}
+                        <tbody>
+                          <RentedCars
+                            rentedCars={this.state.userBookings}
+                            cars={this.state.cars}
+                          />
+                        </tbody>
+                      </Table>
                     </div>
-                    <Table striped bordered hover>
-                      <thead>
-                        <tr>
-                          <th>Ime</th>
-                          <th>Začetek bookinga</th>
-                          <th>Konec bookinga </th>
-                          <th>Stanje izposoje</th>
-                          <th>Vrni avto</th>
-                        </tr>
-                      </thead>{" "}
-                      <tbody>
-                        <RentedCars
-                        rentedCars={this.state.userBookings}
-                        cars={this.state.cars}
-                        />
-                      </tbody>
-                    </Table>
-                  </div>
 
-                  <div style={{ float: "right" }}>
+                    <div style={{ float: "right" }}>
                       <OverlayTrigger
                         key="bottom"
                         placement="bottom"
                         overlay={
                           <Tooltip id={`tooltip-bottom`}>
-                            POZOR! S potrditvijo boste avto vrnili lastniku.
-                            S tem potrjujete da ste avto vrnili pravočasno
-                            in da je z njim vse v redu.
+                            POZOR! S potrditvijo boste avto vrnili lastniku. S
+                            tem potrjujete da ste avto vrnili pravočasno in da
+                            je z njim vse v redu.
                           </Tooltip>
                         }
                       >

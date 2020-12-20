@@ -41,3 +41,4 @@ Za prikaz komoponet na zemljevidu smo uporabili:
 - npm knjižnico react-geocode
     - pretvarjanje imenske lokacije v koordinate
     - pretvarjanje koordinat v imensko lokacijo
+

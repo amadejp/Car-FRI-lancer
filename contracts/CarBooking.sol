@@ -6,7 +6,6 @@ pragma experimental ABIEncoderV2;
 contract CarBooking{
     uint256 public bookingCount = 0;
     mapping(uint => Booking) public bookings;
-    address private owner;
     
     struct Booking {
         uint _id;
@@ -19,10 +18,6 @@ contract CarBooking{
         bool _opened;
     }
     
-    constructor() public{
-        owner = msg.sender; // owner is contract deployer
-    }
-    
     function confirmBooking(
         uint _carId,
         string memory _carOwner,
@@ -32,8 +27,8 @@ contract CarBooking{
         uint _rentCost
         ) 
         public {
-        incrementCount();
         bookings[bookingCount] = Booking(bookingCount, _carId, _carOwner, _user, _rentStart, _rentEnd, _rentCost, true);
+        incrementCount();
     }
     
     function incrementCount() internal {
