@@ -144,7 +144,7 @@
       "trans": "ročni",
       "year": 2019,
       "type": "Kombilimuzina",
-      "owner": "0xB8cBD5Cc98eBD7a875808D742379E03993bA8038",
+      "owner": "0xaAf2C5b19492e89277F900f9Cd6D6F2Ca70056BD",
       "location": "Šmartinska cesta, Ljubljana",
       "price": 40,
       "pic": "/images/renaultclio.png",
@@ -161,7 +161,7 @@
       "trans": "avtomatski",
       "year": 2016,
       "type": "Limuzina",
-      "owner": "0xB8cBD5Cc98eBD7a875808D742379E03993bA8038",
+      "owner": "0xaAf2C5b19492e89277F900f9Cd6D6F2Ca70056BD",
       "location": "Slovenski trg, Kranj",
       "price": 140,
       "pic": "/images/teslamodels.png",
@@ -178,7 +178,7 @@
       "trans": "ročni",
       "year": 1940,
       "type": "Kabriolet",
-      "owner": "0xB8cBD5Cc98eBD7a875808D742379E03993bA8038",
+      "owner": "0xa07d084714eE6D3D9b6EDA2cA0C78dadADfF5551",
       "price": 60,
       "pic": "/images/bmw315.png",
       "location": "Srednje Gameljne",
@@ -186,6 +186,23 @@
       "lng": 14.5004785,
       "available": "true",
       "id": 12
+    },
+    {
+      "name": "Mercedes GLA",
+      "power": 200,
+      "acc": 5.4,
+      "drive": "AWD",
+      "trans": "avtomatski",
+      "year": 2018,
+      "type": "SUV",
+      "owner": "0xaAf2C5b19492e89277F900f9Cd6D6F2Ca70056BD",
+      "price": 120,
+      "pic": "/images/mercedesgla.png",
+      "location": "Večna pot 113",
+      "lat": 46.0500715,
+      "lng": 14.4689219,
+      "available": "true",
+      "id": 13
     }
   ]
 }
