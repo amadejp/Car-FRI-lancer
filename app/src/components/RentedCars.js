@@ -23,7 +23,7 @@ class RentedCars extends Component {
             var rCars = []
             this.props.rentedCars.forEach(rentedCar => {
                 this.props.cars.forEach(car => {
-                    if (parseInt(rentedCar._id) === parseInt(car.id)) {
+                    if (parseInt(rentedCar._carId) === parseInt(car.id)) {
                         var curr = new Date();
                         var date = curr.toISOString().substr(0, 10);
                         var available = "false";
@@ -35,7 +35,7 @@ class RentedCars extends Component {
                             name: car.name,
                             rentStart: rentedCar._rentStart,
                             rentEnd: rentedCar._rentEnd,
-                            available: available
+                            available: car.available
                         }
                         rCars.push(rCar);
                     }
@@ -54,7 +54,7 @@ class RentedCars extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        console.log(prevProps, this.props);
+        //console.log(prevProps, this.props);
         if (prevProps !== this.props) {
             this.updateState();
         }
@@ -70,7 +70,7 @@ class RentedCars extends Component {
         } else if (available === "pending") {
             return (
             <td>
-                <FontAwesomeIcon icon={faQuestion} />
+                Čakanje na potrditev...
             </td>
             );
         } else {

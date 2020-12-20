@@ -13,19 +13,7 @@ class RentForm extends Component {
 
     var car = this.props.cars[0];
     if (car === undefined) {
-      car = {
-        id: 1,
-        name: "Audi A4",
-        power: 150,
-        acc: 8.6,
-        drive: "FWD",
-        trans: "ročni",
-        year: 2019,
-        type: "limuzina",
-        owner: "0xB8cBD5Cc98eBD7a875808D742379E03993bA8038",
-        price: 80,
-        pic: "/images/audia4.png",
-      };
+      return null;
     }
     return (
       <React.Fragment>
