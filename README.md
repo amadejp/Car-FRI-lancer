@@ -6,7 +6,7 @@ TruffleDapps cheat sheet, provided by assistant on laboratory exercises (VSCode 
 Once the setup is done, meaning Ganache blockchain is running and our smart contracts are deployed, we need to install npm package that allows us to use a local database: *npm install json-server*
 
 We will essentially need three terminal windows open:
-- truffle console (executed from app root), that should already be running
+- truffle console (execute *truffle console* from app root), that should already be running
 - local server (npm start, executed from /app)*
 - local database (exectue *npx json-server db.json --port 3003* from app root)
 
