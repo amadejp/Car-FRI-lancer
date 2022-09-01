@@ -4,27 +4,7 @@ Because of the nature of this project, it is only run locally and not deployed w
 
 # Requirements and instructions to run application Car FRI-lancer
 
-First we need to make sure that we have all the requirements for developing a dapp (VSCode with Solidity extension, Metamask, Ganache, Truffle, Nodejs, npm).
-
-
-## How to run a dapp?
-To run the application it is neccessary to have:
-
-Ganache based blockchain network that runs on 127.0.0.1:8545
-Truffle cli
-Metamask connected to Ganache network and using a Ganache wallet address
-Nodejs
-Compile and deploy the smart contracts:
-
-change directory to [application-directory]
-truffle commit
-truffle migrate
-The application can be run from the following location [application-directory]/app, where you need to run the following commands:
-
-npm install
-npm start
-The application will be available at localhost:3000.
-
+First we need to make sure that we have all the [requirements for developing a dapp](#extra---how-to-run-a-dapp) (VSCode with Solidity extension, Metamask, Ganache, Truffle, Nodejs, npm).
 
 
 Once the setup is done, meaning Ganache blockchain is running and our smart contracts are deployed, we need to install npm package that allows us to use a local database: *npm install json-server*
@@ -68,4 +48,25 @@ To display the comoponets on the map, we used:
 - npm library react-geocode
     - converting named locations to coordinates
     - convert coordinates to a named location
+
+
+
+### EXTRA - How to run a dapp?
+
+    To run the application it is neccessary to have:
+        - [Ganache](https://trufflesuite.com/ganache/) based blockchain network that runs on 127.0.0.1:8545
+        - [Truffle](https://trufflesuite.com/docs/vscode-ext/installation-guide/) cli
+        - [Metamask](https://metamask.io/) connected to Ganache network and using a Ganache wallet address
+        - [Nodejs](https://nodejs.org/en/)
+
+    Compile and deploy the smart contracts:
+        - change directory to [application-directory]
+        - truffle commit
+        - truffle migrate
+    
+    
+    The application can be run from the following location [application-directory]/app, where you need to run the following commands:
+        - npm install
+        - npm start
+        - The application will be available at localhost:3000.
 
