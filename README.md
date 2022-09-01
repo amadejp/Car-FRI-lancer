@@ -51,22 +51,22 @@ To display the comoponets on the map, we used:
 
 
 
-### EXTRA - How to run a dapp?
+# EXTRA - How to run a dapp?
 
-    To run the application it is neccessary to have:
-        - [Ganache](https://trufflesuite.com/ganache/) based blockchain network that runs on 127.0.0.1:8545
-        - [Truffle](https://trufflesuite.com/docs/vscode-ext/installation-guide/) cli
-        - [Metamask](https://metamask.io/) connected to Ganache network and using a Ganache wallet address
-        - [Nodejs](https://nodejs.org/en/)
+To run the application it is neccessary to have:
+- [Ganache](https://trufflesuite.com/ganache/) based blockchain network that runs on 127.0.0.1:8545
+- [Truffle](https://trufflesuite.com/docs/vscode-ext/installation-guide/) cli
+- [Metamask](https://metamask.io/) connected to Ganache network and using a Ganache wallet address
+- [Nodejs](https://nodejs.org/en/)
 
-    Compile and deploy the smart contracts:
-        - change directory to [application-directory]
-        - truffle commit
-        - truffle migrate
+Compile and deploy the smart contracts:
+- change directory to [application-directory]
+- truffle commit
+- truffle migrate
     
     
-    The application can be run from the following location [application-directory]/app, where you need to run the following commands:
-        - npm install
-        - npm start
-        - The application will be available at localhost:3000.
+The application can be run from the following location [application-directory]/app, where you need to run the following commands:
+- npm install
+- npm start
+- The application will be available at localhost:3000.
 
