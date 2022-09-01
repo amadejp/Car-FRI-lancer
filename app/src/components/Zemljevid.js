@@ -19,7 +19,7 @@ class Zemljevid extends Component {
             return (
                 <div style={{ height: '70vh', width: '100vh' }}>
                     <GoogleMapReact
-                    bootstrapURLKeys={{ key: "YourGoogleMapsAPI" }}
+                    bootstrapURLKeys={{ key: "AIzaSyDeTGhQkbsgRiM7eN8l3pWJ5eWItc_r0Ys" }}
                     defaultCenter={this.props.center}
                     defaultZoom={this.props.zoom}
                     >   

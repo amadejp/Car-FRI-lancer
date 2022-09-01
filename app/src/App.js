@@ -94,7 +94,7 @@ class App extends Component {
   async handleAdd(event) {
     try {
       event.preventDefault();
-      Geocode.setApiKey("YourGoogleMapsAPI");
+      Geocode.setApiKey("AIzaSyDeTGhQkbsgRiM7eN8l3pWJ5eWItc_r0Ys");
       Geocode.setRegion("SI");
 
       const form = event.target;
