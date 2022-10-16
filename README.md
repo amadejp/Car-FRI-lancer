@@ -1,6 +1,6 @@
-**Car FRI-lancer** is a student project [@UL-FRI](https://www.fri.uni-lj.si/en) made in 2019/2020, used to learn about blockchain, smart contracts and creating a dapp.
+**Car FRI-lancer** is a student project [@UL-FRI](https://www.fri.uni-lj.si/en), used to learn about blockchain, smart contracts and creating a dapp.
 The project serves as a POC of a decentralized shared mobility app, with which users can lend their own personal car when it is not used or rent other users' cars. 
-Because of the nature of this project, it is only run locally and not deployed whatsoever. It was also created back in 2020, so compatibility issues with dependencies' versions could be a problem. Furthermore, it only serves the purpose of proving a concept of a shared mobility dapp and many perfomance, ux and security issues were not answered at that point of development. Also note that some of the code and UI could still be in Slovene and not translated to English. 
+Because of the nature of this project, it is only run locally and not deployed whatsoever. It was also created back in 2019/2020, so compatibility issues with dependencies' versions could be a problem. Furthermore, it only serves the purpose of proving a concept of a shared mobility dapp and many perfomance, ux and security issues were not answered at that point of development. Also note that some of the code and UI could still be in Slovene and not translated to English. 
 
 # Requirements and instructions to run application Car FRI-lancer
 
