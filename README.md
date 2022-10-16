@@ -7,7 +7,7 @@ Because of the nature of this project, it is only run locally and not deployed w
 First we need to make sure that we have all the [requirements for developing a dapp](#extra---how-to-run-a-dapp) (VSCode with Solidity extension, Metamask, Ganache, Truffle, Nodejs, npm).
 
 Then, a bit of hardcoding (sorry, it is a bit awkwardly made as it is only a POC) - in db.json, change eth addresses under "owner" to the ones in your local blockchain, running on Ganache. You can keep track of which cars are connected to which account, so it is easier to use the app as you know which account to switch to.
-
+Also, change our old API key "AIzaSyDeTGhQkbsgRiM7eN8l3pWJ5eWItc_r0Ys" to your Google API key.
 
 Once the setup is done, meaning Ganache blockchain is running and our smart contracts are deployed, we need to install npm package that allows us to use a local database: *npm install json-server*
 
